@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".AddBookFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:gravity="center"
+                android:layout_marginTop="60dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add a Book"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                />
+            <EditText
+                android:id="@+id/titleET"
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:hint="Enter Book Title"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:inputType="text" />
+            <EditText
+                android:id="@+id/authorET"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:hint="Enter Author name"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:inputType="textPersonName" />
+            <EditText
+                android:id="@+id/isbnET"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:hint="Enter ISBN No."
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:inputType="text" />
+            <EditText
+                android:id="@+id/publilsherET"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:hint="Enter Publisher Name"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:inputType="text" />
+            <EditText
+                android:id="@+id/genreET"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:hint="Enter Genre"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:inputType="text" />
+            <EditText
+                android:id="@+id/editionET"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:hint="Enter the number of Edition"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:inputType="text" />
+            <EditText
+                android:id="@+id/languageET"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:hint="Enter Language "
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:inputType="text" />
+            <EditText
+                android:id="@+id/pageET"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:hint="Enter The number oF Page"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:inputType="text" />
+            <EditText
+                android:id="@+id/caution_moneyET"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:hint="Enter Security Money for The Book"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:inputType="numberDecimal" />
+            <Button
+                android:id="@+id/chooserBTN"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="Choose Book Cover"
+                android:textAllCaps="false"/>
+            <Button
+                android:id="@+id/addBTN"
+                android:padding="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="Add Book In th Desk"
+                android:textAllCaps="false"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Booker</string>
+    <string name="api_key">AIzaSyAvHCTyXb0ef26I2i5SPwrygEnblHOweBs</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

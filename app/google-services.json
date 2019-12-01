@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "871488522929",
+    "firebase_url": "https://booker-259406.firebaseio.com",
+    "project_id": "booker-259406",
+    "storage_bucket": "booker-259406.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871488522929:android:d79045ba49f6f365d87090",
+        "android_client_info": {
+          "package_name": "com.example.booker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871488522929-spo9tcj1ui0akknmo79bg0ngl176d1de.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.booker",
+            "certificate_hash": "9afe88332f4d9024833f46fc9497dba97e2abcdb"
+          }
+        },
+        {
+          "client_id": "871488522929-1ii64eradkj5kibh5sgjhicot25us6g4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvHCTyXb0ef26I2i5SPwrygEnblHOweBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "871488522929-1ii64eradkj5kibh5sgjhicot25us6g4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ProfileFragment">
+
+        <LinearLayout
+            android:layout_marginTop="80dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:src="@drawable/profile"
+                app:civ_border_width="3dp"
+                app:civ_border_color="#FF000000"/>
+            <TextView
+                android:id="@+id/nameTV"
+                android:textColor="@color/quantum_black_100"
+                android:padding="10dp"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Jakaria Masud"/>
+            <TextView
+                android:id="@+id/occupationTV"
+                android:textColor="@color/quantum_black_100"
+                android:drawablePadding="10dp"
+                android:text="works as a student "
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/profession_black_24dp"/>
+            <TextView
+                android:id="@+id/emailTV"
+                android:textColor="@color/quantum_black_100"
+                android:text="jakariamasudliton@gmail.com"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/email_black_24dp"/>
+            <TextView
+                android:id="@+id/phoneTV"
+                android:textColor="@color/quantum_black_100"
+                android:text="01737196677"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/_phone_black_24dp"/>
+            <TextView
+                android:id="@+id/locationTV"
+                android:textColor="@color/quantum_black_100"
+                android:text="Meraz nagar Dhaka"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/add_location_black_24dp"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</layout>
