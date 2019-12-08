@@ -15,6 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.booker.databinding.FragmentProfileBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 
@@ -23,8 +28,10 @@ import com.google.gson.Gson;
  */
 public class ProfileFragment extends Fragment {
     FragmentProfileBinding profileBinding;
-    User user;
+    String user_key;
     SharedPreferences preferences;
+    DatabaseReference databaseReference;
+    User user;
 
 
     public ProfileFragment() {
@@ -43,17 +50,31 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        databaseReference= FirebaseDatabase.getInstance().getReference();
         preferences=this.getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        Boolean hasData= preferences.contains("userData");
+        Boolean hasData= preferences.contains("user_key");
         if(hasData){
-            Gson gson = new Gson();
-            String json = preferences.getString("userData", "");
-            user = gson.fromJson(json, User.class);
-            profileBinding.nameTV.setText(user.getName());
-            profileBinding.occupationTV.setText( "Works as a "+user.getProfession());
-            profileBinding.emailTV.setText(user.getEmail());
-            profileBinding.phoneTV.setText(user.getPhone());
-            profileBinding.locationTV.setText(user.getUserAddress().getAddress());
+            String user_key = preferences.getString("user_key", "");
+            databaseReference.child("Users").child(user_key).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    user=dataSnapshot.getValue(User.class);
+                    profileBinding.nameTV.setText(user.getName());
+                    profileBinding.occupationTV.setText( "Works as a "+user.getProfession());
+                    profileBinding.emailTV.setText(user.getEmail());
+                    profileBinding.phoneTV.setText(user.getPhone());
+                    profileBinding.locationTV.setText(user.getUserAddress().getAddress());
+
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
 
 
     }

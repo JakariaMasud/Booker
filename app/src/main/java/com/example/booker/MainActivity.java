@@ -22,9 +22,8 @@ import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
     boolean isUser=false;
-    String userId;
+    String user_key;
     ActivityMainBinding mainBinding;
-    User user;
     SharedPreferences preferences;
     boolean isChecked;
     NavController navController;
@@ -36,11 +35,10 @@ public class MainActivity extends AppCompatActivity {
         mainBinding= DataBindingUtil.setContentView(this,R.layout.activity_main);
         preferences=getSharedPreferences("MyPref",MODE_PRIVATE);
         navController= Navigation.findNavController(this,R.id.nav_host_fragment);
-        Boolean hasData= preferences.contains("userData");
+        Boolean hasData= preferences.contains("user_key");
         if(hasData){
-            Gson gson = new Gson();
-            String json = preferences.getString("userData", "");
-            user = gson.fromJson(json, User.class);
+
+            String user_key = preferences.getString("user_key", "");
             isChecked=preferences.getBoolean("isChecked",false);
         }
         else {

@@ -95,9 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                 boolean isUser=dataSnapshot.hasChild(phone);
                 if(isUser){
                    User user= dataSnapshot.child(phone).getValue(User.class);
-                    Gson gson=new Gson();
-                    String json = gson.toJson(user);
-                    sfEditor.putString("userData", json);;
+                    sfEditor.putString("user_key",user.getPhone());
                     sfEditor.putBoolean("isChecked",isChecked);
                     sfEditor.commit();
                     Intent intent=new Intent(LoginActivity.this,MainActivity.class);

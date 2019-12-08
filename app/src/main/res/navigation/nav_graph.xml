@@ -7,21 +7,27 @@
     <fragment
         android:id="@+id/home"
         android:name="com.example.booker.HomeFragment"
-        android:label="fragment_home"
+        android:label="Home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/profile"
         android:name="com.example.booker.ProfileFragment"
-        android:label="fragment_profile"
+        android:label="Profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/addBook"
         android:name="com.example.booker.AddBookFragment"
-        android:label="fragment_add_book"
-        tools:layout="@layout/fragment_add_book" />
+        android:label="Add Book"
+        tools:layout="@layout/fragment_add_book" >
+    </fragment>
     <fragment
         android:id="@+id/chat"
         android:name="com.example.booker.ChatFragment"
-        android:label="fragment_chat"
+        android:label="Inbox"
         tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/deskFragment"
+        android:name="com.example.booker.DeskFragment"
+        android:label="All Book in Desk"
+        tools:layout="@layout/fragment_desk" />
 </navigation>

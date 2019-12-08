@@ -28,5 +28,11 @@
         android:icon="@drawable/ic_chat"
         android:title="Chat">
     </item>
+    <item
+        android:menuCategory="secondary"
+        android:id="@id/deskFragment"
+        android:icon="@drawable/ic_all_book"
+        android:title="My Desk">
+    </item>
 
 </menu>

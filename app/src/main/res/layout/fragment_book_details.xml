@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".BookDetailsFragment">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/book_detailIV"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/book_place_holder"
+                ></ImageView>
+            <LinearLayout
+                android:id="@+id/bookInfoLayout"
+                android:layout_marginTop="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/book_detailIV">
+                <TextView
+                    android:id="@+id/titleTV"
+                    android:padding="15dp"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/quantum_greyblack1000"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Book Title"/>
+                <TextView
+                    android:id="@+id/authorTV"
+                    android:padding="15dp"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/quantum_greyblack1000"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Book Author"/>
+                <TextView
+                    android:id="@+id/editionTV"
+                    android:padding="15dp"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/quantum_greyblack1000"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Book Edition"/>
+                <TextView
+                    android:id="@+id/publisherTV"
+                    android:padding="15dp"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/quantum_greyblack1000"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Book publisher"/>
+                <TextView
+                    android:id="@+id/genreTV"
+                    android:padding="15dp"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/quantum_greyblack1000"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Book Genre"/>
+                <TextView
+                    android:id="@+id/isbnTV"
+                    android:padding="15dp"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/quantum_greyblack1000"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Book ISBN"/>
+                <TextView
+                    android:id="@+id/languageTV"
+                    android:padding="15dp"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/quantum_greyblack1000"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Book Language"/>
+                <TextView
+                    android:id="@+id/numberOfPageTV"
+                    android:padding="15dp"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/quantum_greyblack1000"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Book Page Count"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/button_group_1"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/bookInfoLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:padding="10dp"
+                    android:textAllCaps="false"
+                    android:layout_weight="1"
+                    android:id="@+id/requestBTN"
+                    android:text="Request For Book"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/button_shape"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"/>
+                <Button
+                    android:id="@+id/paymentBTN"
+                    android:background="@drawable/button_shape"
+                    android:padding="10dp"
+                    android:layout_weight="1"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:layout_margin="10dp"
+                    android:text="Pay Securiy Money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/button_group_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:textAllCaps="false"
+                    android:padding="10dp"
+                    android:layout_weight="1"
+                    android:id="@+id/owner_location_BTN"
+                    android:text="Check Book owner Location"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/button_shape"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"/>
+                <Button
+                    android:id="@+id/message_ownerBTN"
+                    android:textAllCaps="false"
+                    android:background="@drawable/button_shape"
+                    android:padding="10dp"
+                    android:layout_weight="1"
+                    android:textColor="#FFFFFF"
+                    android:layout_margin="10dp"
+                    android:text="Chat with Book owner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</layout>

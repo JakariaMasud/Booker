@@ -1,12 +1,12 @@
 package com.example.booker;
 
 public class Book {
-    String title,author,isbn,publisher,genre,edition,language,numberOfPage,securityMoney,ownerId,CoverLink;
+    private String title, author, isbn, publisher, genre, edition, language, numberOfPage, securityMoney, ownerId, CoverLink, status, bookId;
 
     public Book() {
     }
 
-    public Book(String title, String author, String isbn, String publisher, String genre, String edition, String language, String numberOfPage, String securityMoney, String ownerId, String coverLink) {
+    public Book(String title, String author, String isbn, String publisher, String genre, String edition, String language, String numberOfPage, String securityMoney, String ownerId, String coverLink, String status, String bookId) {
         this.title = title;
         this.author = author;
         this.isbn = isbn;
@@ -18,6 +18,8 @@ public class Book {
         this.securityMoney = securityMoney;
         this.ownerId = ownerId;
         CoverLink = coverLink;
+        this.status = status;
+        this.bookId = bookId;
     }
 
     public String getTitle() {
@@ -106,5 +108,21 @@ public class Book {
 
     public void setCoverLink(String coverLink) {
         CoverLink = coverLink;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 }

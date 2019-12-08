@@ -16,7 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.booker.databinding.FragmentHomeBinding;
+import com.example.booker.databinding.FragmentDeskBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,25 +27,22 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.Context.MODE_PRIVATE;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
-    FragmentHomeBinding homeBinding;
-    SharedPreferences preferences;
-    private DatabaseReference databaseReference;
-    List<Book> bookList;
-    RecyclerView.LayoutManager layoutManager;
-    BookAdapter adapter;
-    String user_key;
+public class DeskFragment extends Fragment {
+   private FragmentDeskBinding deskBinding;
+   private DatabaseReference databaseReference;
+   private SharedPreferences preferences;
+   List<Book> bookList;
+   RecyclerView.LayoutManager layoutManager;
+   BookAdapter adapter;
+   String user_key;
 
 
 
-
-    public HomeFragment() {
+    public DeskFragment() {
         // Required empty public constructor
     }
 
@@ -54,8 +51,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        homeBinding= DataBindingUtil.inflate(inflater,R.layout.fragment_home, container, false);
-        return homeBinding.getRoot();
+        deskBinding= DataBindingUtil.inflate(inflater,R.layout.fragment_desk, container, false);
+        return deskBinding.getRoot();
     }
 
     @Override
@@ -63,19 +60,20 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         layoutManager=new LinearLayoutManager(getActivity());
         bookList=new ArrayList<>();
-        preferences=this.getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        preferences=getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         Boolean hasData= preferences.contains("user_key");
         if(hasData){
             user_key = preferences.getString("user_key", "");
-
         }
-        databaseReference= FirebaseDatabase.getInstance().getReference("Books");
+        databaseReference=FirebaseDatabase.getInstance().getReference("Users");
         PreparingAllData();
+
+
 
     }
 
     private void PreparingAllData() {
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.child(user_key).child("Books").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 bookList.clear();
@@ -100,7 +98,9 @@ public class HomeFragment extends Fragment {
 
     private void settingUpListView() {
         adapter=new BookAdapter(bookList);
-        homeBinding.allBooksRV.setLayoutManager(layoutManager);
-        homeBinding.allBooksRV.setAdapter(adapter);
+        deskBinding.booksRV.setLayoutManager(layoutManager);
+        deskBinding.booksRV.setAdapter(adapter);
+
+
     }
 }
