@@ -7,6 +7,8 @@ xmlns:tools="http://schemas.android.com/tools">
         android:layout_height="match_parent"
         tools:context=".BookDetailsFragment">
         <RelativeLayout
+            android:layout_marginBottom="150dp"
+            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
@@ -94,6 +96,24 @@ xmlns:tools="http://schemas.android.com/tools">
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Book Page Count"/>
+                <TextView
+                    android:id="@+id/security_moneyTV"
+                    android:padding="15dp"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/quantum_greyblack1000"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Book Security Money "/>
+                <TextView
+                    android:id="@+id/ownerTV"
+                    android:padding="15dp"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/quantum_greyblack1000"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Book owner "/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/button_group_1"
@@ -102,7 +122,7 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <Button
-                    android:padding="10dp"
+                    android:padding="7dp"
                     android:textAllCaps="false"
                     android:layout_weight="1"
                     android:id="@+id/requestBTN"
@@ -115,7 +135,7 @@ xmlns:tools="http://schemas.android.com/tools">
                 <Button
                     android:id="@+id/paymentBTN"
                     android:background="@drawable/button_shape"
-                    android:padding="10dp"
+                    android:padding="7dp"
                     android:layout_weight="1"
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF"
@@ -131,7 +151,7 @@ xmlns:tools="http://schemas.android.com/tools">
                 android:layout_height="wrap_content">
                 <Button
                     android:textAllCaps="false"
-                    android:padding="10dp"
+                    android:padding="7dp"
                     android:layout_weight="1"
                     android:id="@+id/owner_location_BTN"
                     android:text="Check Book owner Location"
@@ -144,7 +164,7 @@ xmlns:tools="http://schemas.android.com/tools">
                     android:id="@+id/message_ownerBTN"
                     android:textAllCaps="false"
                     android:background="@drawable/button_shape"
-                    android:padding="10dp"
+                    android:padding="7dp"
                     android:layout_weight="1"
                     android:textColor="#FFFFFF"
                     android:layout_margin="10dp"

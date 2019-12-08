@@ -6,6 +6,7 @@
         android:layout_height="match_parent"
         tools:context=".AddBookFragment">
         <RelativeLayout
+            android:layout_marginBottom="150dp"
             android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -138,13 +139,13 @@
                     android:layout_marginRight="180dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:background="@drawable/button_shape"
-                    android:textColor="#FFFFFF"
+                    android:background="@drawable/rectangle_shape"
+                    android:textColor="#000000"
                     android:text="Choose Book Cover"
                     android:textAllCaps="false"/>
                 <Button
                     android:id="@+id/addBTN"
-                    android:padding="20dp"
+                    android:padding="10dp"
                     android:layout_marginTop="40dp"
                     android:background="@drawable/button_shape"
                     android:textColor="#ffffff"

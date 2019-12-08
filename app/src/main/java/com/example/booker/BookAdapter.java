@@ -15,6 +15,7 @@ import java.util.List;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
     List<Book> bookList;
+    private static BookClickListener bookClickListener;
 
     public BookAdapter(List<Book> bookList) {
         this.bookList = bookList;
@@ -30,12 +31,13 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BookHolder holder, int position) {
-        Book book=bookList.get(position);
+    public void onBindViewHolder(@NonNull BookHolder holder, final int position) {
+        final Book book=bookList.get(position);
         Picasso.get().load(book.getCoverLink()).placeholder(R.drawable.book_place_holder).into(holder.singleBookBinding.bookIV);
         holder.singleBookBinding.bookTitleTV.setText(book.getTitle());
         holder.singleBookBinding.bookEditionTV.setText("Edition: "+book.getEdition());
         holder.singleBookBinding.bookAuthorTV.setText("Author "+book.getAuthor());
+
 
     }
 
@@ -47,9 +49,21 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
     public class BookHolder extends RecyclerView.ViewHolder{
         private SingleBookBinding singleBookBinding;
 
-        public BookHolder(@NonNull SingleBookBinding bookBinding) {
+        public BookHolder(@NonNull final SingleBookBinding bookBinding) {
             super(bookBinding.getRoot());
             this.singleBookBinding=bookBinding;
+             bookBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     bookClickListener.onBookClick(getAdapterPosition(),v);
+                 }
+             });
+
         }
     }
+
+    public void setOnBookClickListener(BookClickListener listener){
+        bookClickListener =listener;
+    }
+
 }

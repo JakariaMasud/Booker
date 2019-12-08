@@ -56,6 +56,7 @@ public class AddBookFragment extends Fragment {
     Book book;
     NavController navController;
     StorageReference fileRef;
+    String uniqueId;
 
 
 
@@ -188,8 +189,8 @@ public class AddBookFragment extends Fragment {
     }
 
     private void updateTheDatabse(){
-        book=new Book(title,author,isbn,publisher,genre,edition,language,numberOfPage,securityMoney,user_key,coverLink,"Available");
-        final String uniqueId=databaseReference.child("Books").push().getKey();
+         uniqueId=databaseReference.child("Books").push().getKey();
+        book=new Book(title,author,isbn,publisher,genre,edition,language,numberOfPage,securityMoney,user_key,coverLink,"Available",uniqueId);
         Task task=databaseReference.child("Books").child(uniqueId).setValue(book);
         task.addOnCompleteListener(new OnCompleteListener() {
             @Override

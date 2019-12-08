@@ -8,7 +8,11 @@
         android:id="@+id/home"
         android:name="com.example.booker.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_to_bookDetailsFragment"
+            app:destination="@id/bookDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profile"
         android:name="com.example.booker.ProfileFragment"
@@ -30,4 +34,14 @@
         android:name="com.example.booker.DeskFragment"
         android:label="All Book in Desk"
         tools:layout="@layout/fragment_desk" />
+    <fragment
+        android:id="@+id/bookDetailsFragment"
+        android:name="com.example.booker.BookDetailsFragment"
+        android:label="Book Detail "
+        tools:layout="@layout/fragment_book_details" >
+        <argument
+            android:name="bookId"
+            app:argType="string"
+            android:defaultValue="default" />
+    </fragment>
 </navigation>

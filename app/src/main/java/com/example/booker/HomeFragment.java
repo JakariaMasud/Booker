@@ -9,12 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.booker.databinding.FragmentHomeBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -41,6 +46,7 @@ public class HomeFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     BookAdapter adapter;
     String user_key;
+    NavController navController;
 
 
 
@@ -61,6 +67,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        navController= Navigation.findNavController(view);
         layoutManager=new LinearLayoutManager(getActivity());
         bookList=new ArrayList<>();
         preferences=this.getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
@@ -101,6 +108,23 @@ public class HomeFragment extends Fragment {
     private void settingUpListView() {
         adapter=new BookAdapter(bookList);
         homeBinding.allBooksRV.setLayoutManager(layoutManager);
+        adapter.setOnBookClickListener(new BookClickListener() {
+            @Override
+            public void onBookClick(int position, View v) {
+                String bookId=bookList.get(position).getBookId();
+                HomeFragmentDirections.ActionHomeToBookDetailsFragment action=HomeFragmentDirections.actionHomeToBookDetailsFragment();
+                action.setBookId(bookId);
+                navController.navigate(action);
+
+
+            }
+
+            @Override
+            public void onBookLongClick(int position, View v) {
+                Log.d("click", "onBookLongClick position: " + position);
+
+            }
+        });
         homeBinding.allBooksRV.setAdapter(adapter);
     }
 }
