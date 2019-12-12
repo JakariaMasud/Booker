@@ -11,6 +11,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+            <include
+                android:id="@+id/custom_appbar"
+                layout="@layout/action_bar"></include>
             <fragment
                 android:id="@+id/nav_host_fragment"
                 android:name="androidx.navigation.fragment.NavHostFragment"
@@ -27,7 +30,6 @@
             android:fitsSystemWindows="true"
             android:layout_gravity="start"
             app:menu="@menu/drawer_menu">
-
         </com.google.android.material.navigation.NavigationView>
 
     </androidx.drawerlayout.widget.DrawerLayout>

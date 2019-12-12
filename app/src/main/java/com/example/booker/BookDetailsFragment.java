@@ -1,14 +1,15 @@
 package com.example.booker;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -32,6 +34,8 @@ public class BookDetailsFragment extends Fragment {
     DatabaseReference databaseReference;
     User owner;
     String ownerid;
+    NavController navController;
+
 
 
     public BookDetailsFragment() {
@@ -50,15 +54,29 @@ public class BookDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        navController= Navigation.findNavController(view);
         databaseReference= FirebaseDatabase.getInstance().getReference();
         if(getArguments()!=null){
            bookId= BookDetailsFragmentArgs.fromBundle(getArguments()).getBookId();
           settingUpUi();
+          settingUpLisener();
 
         }
 
 
 
+    }
+
+    private void settingUpLisener() {
+        bookDetailsBinding.ownerChatBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BookDetailsFragmentDirections.ActionBookDetailsFragmentToMessageFragment action=BookDetailsFragmentDirections.actionBookDetailsFragmentToMessageFragment(ownerid);
+                navController.navigate(action);
+
+
+            }
+        });
     }
 
     private void settingUpUi() {
@@ -111,4 +129,5 @@ public class BookDetailsFragment extends Fragment {
         });
 
     }
+
 }

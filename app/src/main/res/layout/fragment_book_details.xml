@@ -161,7 +161,7 @@ xmlns:tools="http://schemas.android.com/tools">
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"/>
                 <Button
-                    android:id="@+id/message_ownerBTN"
+                    android:id="@+id/owner_chatBTN"
                     android:textAllCaps="false"
                     android:background="@drawable/button_shape"
                     android:padding="7dp"

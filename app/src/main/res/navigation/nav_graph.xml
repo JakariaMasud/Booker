@@ -42,6 +42,17 @@
         <argument
             android:name="bookId"
             app:argType="string"
-            android:defaultValue="default" />
+            android:defaultValue="default"/>
+        <action
+            android:id="@+id/action_bookDetailsFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/messageFragment"
+        android:name="com.example.booker.MessageFragment"
+        tools:layout="@layout/fragment_message" >
+        <argument
+            android:name="reciever_id"
+            app:argType="string" />
     </fragment>
 </navigation>
