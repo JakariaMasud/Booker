@@ -7,16 +7,11 @@ public class User {
     String profession;
     String password;
     Address userAddress;
+    Boolean isOnline;
+    long lastSeenTimeStamp;
+    String profilePicLink;
 
     public User() {
-    }
-
-    public User(String phone, String name, String email, String profession, String password) {
-        this.phone = phone;
-        this.name = name;
-        this.email = email;
-        this.profession = profession;
-        this.password = password;
     }
 
     public User(String phone, String name, String email, String profession, String password, Address userAddress) {
@@ -26,6 +21,29 @@ public class User {
         this.profession = profession;
         this.password = password;
         this.userAddress = userAddress;
+    }
+
+    public User(String phone, String name, String email, String profession, String password, Address userAddress, Boolean isOnline, long lastSeenTimeStamp) {
+        this.phone = phone;
+        this.name = name;
+        this.email = email;
+        this.profession = profession;
+        this.password = password;
+        this.userAddress = userAddress;
+        this.isOnline = isOnline;
+        this.lastSeenTimeStamp = lastSeenTimeStamp;
+    }
+
+    public User(String phone, String name, String email, String profession, String password, Address userAddress, Boolean isOnline, long lastSeenTimeStamp, String profilePicLink) {
+        this.phone = phone;
+        this.name = name;
+        this.email = email;
+        this.profession = profession;
+        this.password = password;
+        this.userAddress = userAddress;
+        this.isOnline = isOnline;
+        this.lastSeenTimeStamp = lastSeenTimeStamp;
+        this.profilePicLink = profilePicLink;
     }
 
     public String getPhone() {
@@ -76,15 +94,27 @@ public class User {
         this.userAddress = userAddress;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "phone='" + phone + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", profession='" + profession + '\'' +
-                ", password='" + password + '\'' +
-                ", userAddress=" + userAddress +
-                '}';
+    public Boolean getOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(Boolean online) {
+        isOnline = online;
+    }
+
+    public long getLastSeenTimeStamp() {
+        return lastSeenTimeStamp;
+    }
+
+    public void setLastSeenTimeStamp(long lastSeenTimeStamp) {
+        this.lastSeenTimeStamp = lastSeenTimeStamp;
+    }
+
+    public String getProfilePicLink() {
+        return profilePicLink;
+    }
+
+    public void setProfilePicLink(String profilePicLink) {
+        this.profilePicLink = profilePicLink;
     }
 }

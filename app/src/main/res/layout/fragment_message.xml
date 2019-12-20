@@ -9,29 +9,26 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/messageRV"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="55dp">
         </androidx.recyclerview.widget.RecyclerView>
-<LinearLayout
-    android:layout_below="@+id/messageRV"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
-    <EditText
-        android:layout_weight="10"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content">
-    </EditText>
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_send_black_24dp"/>
 
-
-</LinearLayout>
-
+        <EditText
+            android:id="@+id/messageET"
+            android:layout_alignParentBottom="true"
+            android:hint="Enter a message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/sendBTN"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_send_black_24dp"/>
 
     </RelativeLayout>
+
 
 
 

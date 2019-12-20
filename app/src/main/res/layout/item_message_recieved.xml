@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/recieverIV"
+            android:layout_marginLeft="7dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/profile"
+            android:layout_marginTop="5dp">
+        </de.hdodenhof.circleimageview.CircleImageView>
+        <TextView
+            android:id="@+id/reciever_nameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:text="Jakaria Masud"
+            android:layout_toRightOf="@+id/recieverIV"
+            android:textSize="12sp"/>
+        <TextView
+            android:id="@+id/reciever_messageTV"
+            android:maxWidth="240dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello"
+            android:textColor="#000"
+            android:layout_below="@+id/reciever_nameTV"
+            android:layout_toRightOf="@+id/recieverIV"
+            android:padding="8dp"
+            android:background="@drawable/chat_bubble_gray"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="5dp"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/reciever_messageTV"
+            android:text="11:40"
+            android:layout_toRightOf="@+id/reciever_messageTV"
+            android:textSize="10sp"
+            android:textColor="#000"></TextView>
+
+    </RelativeLayout>
+</layout>

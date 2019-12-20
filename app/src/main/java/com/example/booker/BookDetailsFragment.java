@@ -2,6 +2,8 @@ package com.example.booker;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -33,8 +35,9 @@ public class BookDetailsFragment extends Fragment {
     String bookId;
     DatabaseReference databaseReference;
     User owner;
-    String ownerid;
+    String ownerId,userId;
     NavController navController;
+    SharedPreferences preferences;
 
 
 
@@ -54,6 +57,8 @@ public class BookDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        preferences=getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        userId=preferences.getString("user_key",null);
         navController= Navigation.findNavController(view);
         databaseReference= FirebaseDatabase.getInstance().getReference();
         if(getArguments()!=null){
@@ -71,7 +76,8 @@ public class BookDetailsFragment extends Fragment {
         bookDetailsBinding.ownerChatBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BookDetailsFragmentDirections.ActionBookDetailsFragmentToMessageFragment action=BookDetailsFragmentDirections.actionBookDetailsFragmentToMessageFragment(ownerid);
+                BookDetailsFragmentDirections.ActionBookDetailsFragmentToMessageFragment action;
+                action = BookDetailsFragmentDirections.actionBookDetailsFragmentToMessageFragment(ownerId);
                 navController.navigate(action);
 
 
@@ -95,8 +101,14 @@ public class BookDetailsFragment extends Fragment {
                 bookDetailsBinding.numberOfPageTV.setText("Total Number of Page : "+book.getNumberOfPage());
                 bookDetailsBinding.securityMoneyTV.setText("Security Money : "+book.getSecurityMoney());
                 Picasso.get().load(book.getCoverLink()).placeholder(R.drawable.book_place_holder).into(bookDetailsBinding.bookDetailIV);
-                ownerid=book.getOwnerId();
-                if(ownerid!=null){
+                ownerId=book.getOwnerId();
+                if(userId.equals(ownerId)){
+                    bookDetailsBinding.ownerChatBTN.setVisibility(View.GONE);
+                    bookDetailsBinding.ownerLocationBTN.setVisibility(View.GONE);
+                    bookDetailsBinding.paymentBTN.setVisibility(View.GONE);
+                    bookDetailsBinding.requestBTN.setVisibility(View.GONE);
+                }
+                if(ownerId!=null){
                     gettingOwnerInfo();
                 }
 
@@ -111,12 +123,13 @@ public class BookDetailsFragment extends Fragment {
     }
 
     private void gettingOwnerInfo( ) {
-        databaseReference.child("Users").child(ownerid).addValueEventListener(new ValueEventListener() {
+        databaseReference.child("Users").child(ownerId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 owner=dataSnapshot.getValue(User.class);
                 bookDetailsBinding.ownerTV.setText("Book owner : "+owner.getName());
+
 
 
 

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="7dp"
+        app:cardUseCompatPadding="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="18dp">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/chat_profileIV"
+                android:layout_margin="5dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/profile"
+                ></de.hdodenhof.circleimageview.CircleImageView>
+            <TextView
+                android:layout_marginTop="7dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chat_usernameTV"
+                android:layout_toRightOf="@+id/chat_profileIV"
+                android:text="Jakaria Masud"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/last_msgTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/chat_profileIV"
+                android:layout_below="@+id/chat_usernameTV"
+                android:padding="5dp"
+                android:text="Hello Man"
+                android:textSize="12sp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/colorPrimary"/>
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

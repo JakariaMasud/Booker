@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/sender_messageTV"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="240dp"
+            android:background="@drawable/chat_bubble_pink"
+            android:textColor="#fff"
+            android:layout_marginTop="5dp"
+            android:padding="8dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="Hello jakaria"></TextView>
+        <TextView
+            android:id="@+id/sent_timeTV"
+            android:layout_marginRight="4dp"
+            android:text="9:30"
+            android:textColor="#000"
+            android:textSize="10sp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/sender_messageTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+
+    </RelativeLayout>
+</layout>

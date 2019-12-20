@@ -153,7 +153,6 @@ public class AddBookFragment extends Fragment {
         }
         Boolean hasData= preferences.contains("user_key");
         if(hasData){
-            Gson gson = new Gson();
             user_key = preferences.getString("user_key", "");
            UploadImage();
 

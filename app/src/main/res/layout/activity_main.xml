@@ -13,7 +13,15 @@
             android:orientation="vertical">
             <include
                 android:id="@+id/custom_appbar"
-                layout="@layout/action_bar"></include>
+                layout="@layout/action_bar"
+                android:visibility="visible"></include>
+    <include
+        android:id="@+id/chat_appbar"
+        layout="@layout/chat_action_bar"
+        android:visibility="gone">
+    </include>
+
+
             <fragment
                 android:id="@+id/nav_host_fragment"
                 android:name="androidx.navigation.fragment.NavHostFragment"

@@ -6,38 +6,37 @@
     app:startDestination="@id/home">
     <fragment
         android:id="@+id/home"
-        android:name="com.example.booker.HomeFragment"
         android:label="Home"
+        android:name="com.example.booker.HomeFragment"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_home_to_bookDetailsFragment"
             app:destination="@id/bookDetailsFragment" />
     </fragment>
     <fragment
+        android:label="Profile"
         android:id="@+id/profile"
         android:name="com.example.booker.ProfileFragment"
-        android:label="Profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
+        android:label="Add a Book"
         android:id="@+id/addBook"
         android:name="com.example.booker.AddBookFragment"
-        android:label="Add Book"
         tools:layout="@layout/fragment_add_book" >
     </fragment>
     <fragment
+        android:label="Inbox"
         android:id="@+id/chat"
         android:name="com.example.booker.ChatFragment"
-        android:label="Inbox"
         tools:layout="@layout/fragment_chat" />
     <fragment
+        android:label="My Desk"
         android:id="@+id/deskFragment"
         android:name="com.example.booker.DeskFragment"
-        android:label="All Book in Desk"
         tools:layout="@layout/fragment_desk" />
     <fragment
         android:id="@+id/bookDetailsFragment"
         android:name="com.example.booker.BookDetailsFragment"
-        android:label="Book Detail "
         tools:layout="@layout/fragment_book_details" >
         <argument
             android:name="bookId"
