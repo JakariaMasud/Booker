@@ -70,6 +70,9 @@ public class HomeFragment extends Fragment {
         navController= Navigation.findNavController(view);
         layoutManager=new LinearLayoutManager(getActivity());
         bookList=new ArrayList<>();
+        adapter=new BookAdapter(bookList);
+        homeBinding.allBooksRV.setLayoutManager(layoutManager);
+        homeBinding.allBooksRV.setAdapter(adapter);
         preferences=this.getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         Boolean hasData= preferences.contains("user_key");
         if(hasData){
@@ -89,6 +92,7 @@ public class HomeFragment extends Fragment {
                 for(DataSnapshot singleBook: dataSnapshot.getChildren()){
                     Book book=singleBook.getValue(Book.class);
                     bookList.add(book);
+                    adapter.notifyDataSetChanged();
                 }
                 settingUpListView();
 
@@ -106,8 +110,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void settingUpListView() {
-        adapter=new BookAdapter(bookList);
-        homeBinding.allBooksRV.setLayoutManager(layoutManager);
         adapter.setOnBookClickListener(new BookClickListener() {
             @Override
             public void onBookClick(int position, View v) {
@@ -125,6 +127,18 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        homeBinding.allBooksRV.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void onStart() {
+        Log.e("check","on start from home fragment");
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        Log.e("check","on stop from home fragment");
+        super.onStop();
     }
 }

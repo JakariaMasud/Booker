@@ -33,6 +33,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="5dp"></TextView>
         <TextView
+            android:id="@+id/recieved_timeTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/reciever_messageTV"

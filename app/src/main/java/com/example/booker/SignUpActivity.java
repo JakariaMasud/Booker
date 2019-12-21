@@ -18,8 +18,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.schibstedspain.leku.LocationPickerActivity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.schibstedspain.leku.LocationPickerActivityKt.LATITUDE;
 import static com.schibstedspain.leku.LocationPickerActivityKt.LOCATION_ADDRESS;
@@ -135,8 +139,18 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
     void creatingAccount(String phone,String name,String email,String profession,String password){
-        User user=new User(phone,name,email,profession,password,userAddress);
-        databaseReference.child("Users").child(phone).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+        Map userMap=new HashMap();
+        userMap.put("phone",phone);
+        userMap.put("name",name);
+        userMap.put("email",email);
+        userMap.put("profession",profession);
+        userMap.put("password",password);
+        userMap.put("userAddress",userAddress);
+        userMap.put("isOnline",false);
+        userMap.put("lastSeenTimeStamp",ServerValue.TIMESTAMP);
+        userMap.put("profilePicLink",null);
+
+        databaseReference.child("Users").child(phone).updateChildren(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){

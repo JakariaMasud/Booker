@@ -38,6 +38,7 @@ public class BookDetailsFragment extends Fragment {
     String ownerId,userId;
     NavController navController;
     SharedPreferences preferences;
+    boolean visibilty=true;
 
 
 
@@ -103,10 +104,21 @@ public class BookDetailsFragment extends Fragment {
                 Picasso.get().load(book.getCoverLink()).placeholder(R.drawable.book_place_holder).into(bookDetailsBinding.bookDetailIV);
                 ownerId=book.getOwnerId();
                 if(userId.equals(ownerId)){
+                    visibilty=false;
                     bookDetailsBinding.ownerChatBTN.setVisibility(View.GONE);
                     bookDetailsBinding.ownerLocationBTN.setVisibility(View.GONE);
                     bookDetailsBinding.paymentBTN.setVisibility(View.GONE);
                     bookDetailsBinding.requestBTN.setVisibility(View.GONE);
+
+                }
+
+                else {
+                    if(!visibilty){
+                        bookDetailsBinding.ownerChatBTN.setVisibility(View.VISIBLE);
+                        bookDetailsBinding.ownerLocationBTN.setVisibility(View.VISIBLE);
+                        bookDetailsBinding.paymentBTN.setVisibility(View.VISIBLE);
+                        bookDetailsBinding.requestBTN.setVisibility(View.VISIBLE);
+                    }
                 }
                 if(ownerId!=null){
                     gettingOwnerInfo();

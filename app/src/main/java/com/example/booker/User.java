@@ -1,40 +1,30 @@
 package com.example.booker;
 
 public class User {
-    String phone;
-    String name;
-    String email;
-    String profession;
-    String password;
-    Address userAddress;
-    Boolean isOnline;
-    long lastSeenTimeStamp;
-    String profilePicLink;
+    private String phone;
+    private String name;
+    private String email;
+    private String profession;
+    private String password;
+    private Address userAddress;
+    private boolean isOnline;
+    private long lastSeenTimeStamp;
+    private String profilePicLink;
 
     public User() {
     }
 
-    public User(String phone, String name, String email, String profession, String password, Address userAddress) {
+    public User(String phone, String name, String email, String profession, String password, Address userAddress, long lastSeenTimeStamp) {
         this.phone = phone;
         this.name = name;
         this.email = email;
         this.profession = profession;
         this.password = password;
         this.userAddress = userAddress;
-    }
-
-    public User(String phone, String name, String email, String profession, String password, Address userAddress, Boolean isOnline, long lastSeenTimeStamp) {
-        this.phone = phone;
-        this.name = name;
-        this.email = email;
-        this.profession = profession;
-        this.password = password;
-        this.userAddress = userAddress;
-        this.isOnline = isOnline;
         this.lastSeenTimeStamp = lastSeenTimeStamp;
     }
 
-    public User(String phone, String name, String email, String profession, String password, Address userAddress, Boolean isOnline, long lastSeenTimeStamp, String profilePicLink) {
+    public User(String phone, String name, String email, String profession, String password, Address userAddress, boolean isOnline, long lastSeenTimeStamp, String profilePicLink) {
         this.phone = phone;
         this.name = name;
         this.email = email;
@@ -94,11 +84,11 @@ public class User {
         this.userAddress = userAddress;
     }
 
-    public Boolean getOnline() {
+    public boolean isOnline() {
         return isOnline;
     }
 
-    public void setOnline(Boolean online) {
+    public void setOnline(boolean online) {
         isOnline = online;
     }
 

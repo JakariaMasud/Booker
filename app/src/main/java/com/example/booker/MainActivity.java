@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
-            return;
         }
         appBarConfiguration =
                 new AppBarConfiguration.Builder(navController.getGraph())
@@ -126,6 +125,15 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 user =dataSnapshot.getValue(User.class);
                 userName.setText(user.getName());
+               if(user.isOnline()){
+                   userStatus.setText("Online");
+               }
+               else {
+                   String status=GetTimeAgo.getTimeAgo(user.getLastSeenTimeStamp(),getApplicationContext());
+                   userStatus.setText(status);
+               }
+
+
             }
 
             @Override
@@ -139,10 +147,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+
         if (!isChecked) {
             preferences.edit().clear().commit();
         }
+        super.onDestroy();
 
     }
 
@@ -154,6 +163,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void signout(MenuItem item) {
+        if(user_key!=null){
+            Map timeMap=new HashMap();
+            timeMap.put("lastSeenTimeStamp", ServerValue.TIMESTAMP);
+            timeMap.put("isOnline",false);
+            databaseReference.child("Users").child(user_key).updateChildren(timeMap);
+        }
         preferences.edit().clear().commit();
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
@@ -179,19 +194,29 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        super.onStart();
-        Map presenceMap =new HashMap();
-        presenceMap.put("isOnline",true);
-        databaseReference.child("Users").child(user_key).updateChildren(presenceMap);
+        Log.e("check","on start from main activity");
 
+        if(user_key!=null){
+            Map presenceMap =new HashMap();
+            presenceMap.put("isOnline",true);
+            databaseReference.child("Users").child(user_key).updateChildren(presenceMap);
+        }
+
+        super.onStart();
 
     }
 
     @Override
     protected void onStop() {
+        Log.e("check","on stop from main activity");
+
+        if(user_key!=null){
+            Map timeMap=new HashMap();
+            timeMap.put("lastSeenTimeStamp", ServerValue.TIMESTAMP);
+            timeMap.put("isOnline",false);
+            databaseReference.child("Users").child(user_key).updateChildren(timeMap);
+        }
         super.onStop();
-        Map timeMap=new HashMap();
-        timeMap.put("lastSeenTimeStamp", ServerValue.TIMESTAMP);
-        databaseReference.child("Users").child(user_key).updateChildren(timeMap);
+
     }
 }

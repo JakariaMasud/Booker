@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
         loginBinding.loginpb.setVisibility(View.VISIBLE);
 
 
-        databaseReference.child("Users").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 

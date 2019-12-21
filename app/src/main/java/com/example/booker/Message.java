@@ -7,13 +7,6 @@ long timeStamp;
     public Message() {
     }
 
-    public Message(String message, String type, String senderId, long timeStamp) {
-        this.message = message;
-        this.type = type;
-        this.senderId = senderId;
-        this.timeStamp = timeStamp;
-    }
-
     public String getMessage() {
         return message;
     }
