@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +39,8 @@ public class ChatFragment extends Fragment {
     DatabaseReference messageRef,userRef,lastMsgRef;
     SharedPreferences sharedPreferences;
     String userId;
+    String user_key;
+    NavController navController;
 
 
 
@@ -59,6 +63,7 @@ public class ChatFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        navController= Navigation.findNavController(view);
         sharedPreferences=getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         userId= sharedPreferences.getString("user_key",null);
 
@@ -78,7 +83,7 @@ public class ChatFragment extends Fragment {
         FirebaseRecyclerAdapter<User,ChatItemViewHolder> adapter=new FirebaseRecyclerAdapter<User, ChatItemViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull final ChatItemViewHolder holder, int position, @NonNull User model) {
-                final String user_key=getRef(position).getKey();
+                user_key=getRef(position).getKey();
                 Query lastQuery = lastMsgRef.child(user_key).orderByKey().limitToLast(1);
                 lastQuery.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -133,6 +138,19 @@ public class ChatFragment extends Fragment {
         public ChatItemViewHolder(@NonNull SingleChatItemBinding  item) {
             super(item.getRoot());
             chatItemBinding=item;
+            chatItemBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ChatFragmentDirections.ActionChatToMessageFragment action=ChatFragmentDirections.actionChatToMessageFragment(user_key);
+                    navController.navigate(action);
+
+
+
+
+
+
+                }
+            });
         }
     }
 

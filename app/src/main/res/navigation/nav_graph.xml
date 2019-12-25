@@ -28,12 +28,20 @@
         android:label="Inbox"
         android:id="@+id/chat"
         android:name="com.example.booker.ChatFragment"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/action_chat_to_messageFragment"
+            app:destination="@id/messageFragment" />
+    </fragment>
     <fragment
         android:label="My Desk"
         android:id="@+id/deskFragment"
         android:name="com.example.booker.DeskFragment"
-        tools:layout="@layout/fragment_desk" />
+        tools:layout="@layout/fragment_desk" >
+        <action
+            android:id="@+id/action_deskFragment_to_bookDetailsFragment"
+            app:destination="@id/bookDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/bookDetailsFragment"
         android:name="com.example.booker.BookDetailsFragment"

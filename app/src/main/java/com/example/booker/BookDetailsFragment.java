@@ -77,8 +77,8 @@ public class BookDetailsFragment extends Fragment {
         bookDetailsBinding.ownerChatBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BookDetailsFragmentDirections.ActionBookDetailsFragmentToMessageFragment action;
-                action = BookDetailsFragmentDirections.actionBookDetailsFragmentToMessageFragment(ownerId);
+                BookDetailsFragmentDirections.ActionBookDetailsFragmentToMessageFragment action =
+                        BookDetailsFragmentDirections.actionBookDetailsFragmentToMessageFragment(ownerId);
                 navController.navigate(action);
 
 

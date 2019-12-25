@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,6 +41,7 @@ public class DeskFragment extends Fragment {
    RecyclerView.LayoutManager layoutManager;
    BookAdapter adapter;
    String user_key;
+   NavController navController;
 
 
 
@@ -58,8 +61,12 @@ public class DeskFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        navController= Navigation.findNavController(view);
         layoutManager=new LinearLayoutManager(getActivity());
         bookList=new ArrayList<>();
+        adapter=new BookAdapter(bookList);
+        deskBinding.booksRV.setLayoutManager(layoutManager);
+        deskBinding.booksRV.setAdapter(adapter);
         preferences=getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         Boolean hasData= preferences.contains("user_key");
         if(hasData){
@@ -80,6 +87,7 @@ public class DeskFragment extends Fragment {
                 for(DataSnapshot singleBook: dataSnapshot.getChildren()){
                     Book book=singleBook.getValue(Book.class);
                     bookList.add(book);
+                    adapter.notifyDataSetChanged();
                 }
                 settingUpListView();
 
@@ -97,9 +105,20 @@ public class DeskFragment extends Fragment {
     }
 
     private void settingUpListView() {
-        adapter=new BookAdapter(bookList);
-        deskBinding.booksRV.setLayoutManager(layoutManager);
-        deskBinding.booksRV.setAdapter(adapter);
+   adapter.setOnBookClickListener(new BookClickListener() {
+       @Override
+       public void onBookClick(int position, View v) {
+           String book_id=bookList.get(position).getBookId();
+           DeskFragmentDirections.ActionDeskFragmentToBookDetailsFragment action=DeskFragmentDirections.actionDeskFragmentToBookDetailsFragment();
+           action.setBookId(book_id);
+           navController.navigate(action);
+       }
+
+       @Override
+       public void onBookLongClick(int position, View v) {
+
+       }
+   });
 
 
     }
