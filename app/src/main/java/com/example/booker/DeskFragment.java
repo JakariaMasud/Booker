@@ -74,26 +74,23 @@ public class DeskFragment extends Fragment {
         }
         databaseReference=FirebaseDatabase.getInstance().getReference("Users");
         PreparingAllData();
+        settingUpListView();
 
 
 
     }
 
     private void PreparingAllData() {
-        databaseReference.child(user_key).child("Books").addValueEventListener(new ValueEventListener() {
+        databaseReference.child(user_key).child("Books").child("Available").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 bookList.clear();
                 for(DataSnapshot singleBook: dataSnapshot.getChildren()){
                     Book book=singleBook.getValue(Book.class);
                     bookList.add(book);
-                    adapter.notifyDataSetChanged();
                 }
-                settingUpListView();
 
-
-
-
+                adapter.notifyDataSetChanged();
 
             }
 

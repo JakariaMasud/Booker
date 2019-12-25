@@ -15,7 +15,7 @@
 
         <EditText
             android:id="@+id/messageET"
-            android:layout_width="382dp"
+            android:layout_width="370dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="0dp"
@@ -26,9 +26,11 @@
             android:id="@+id/sendBTN"
             android:layout_toRightOf="@+id/messageET"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_send_black_24dp"/>
+            android:src="@drawable/ic_send_black_24dp"
+            android:layout_alignTop="@+id/messageET"/>
 
     </RelativeLayout>
 

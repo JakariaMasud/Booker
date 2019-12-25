@@ -7,7 +7,7 @@
         tools:context=".ProfileFragment">
 
         <LinearLayout
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="70dp"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,6 +21,16 @@
                 android:src="@drawable/profile"
                 app:civ_border_width="3dp"
                 app:civ_border_color="#FF000000"/>
+            <Button
+                android:id="@+id/save_changeBTN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save change"
+                android:background="@drawable/button_shape"
+                android:textColor="#fff"
+                android:padding="5dp"
+                android:layout_marginTop="7dp"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/nameTV"
                 android:textColor="@color/quantum_black_100"
@@ -80,6 +90,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/add_location_black_24dp"/>
+            <TextView
+                android:id="@+id/active_statusTV"
+                android:textColor="@color/quantum_black_100"
+                android:text="Active "
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/add_location_black_24dp"/>
+
         </LinearLayout>
 
     </RelativeLayout>

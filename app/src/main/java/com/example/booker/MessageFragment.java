@@ -116,7 +116,8 @@ public class MessageFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(getContext(), "message is successfully saved", Toast.LENGTH_SHORT).show();
+                                messageBinding.messageET.setText("");
+
                             }
 
                         }
@@ -135,7 +136,7 @@ public class MessageFragment extends Fragment {
         super.onStart();
         Query query =messageReference
                 .orderByKey()
-                .limitToLast(50);
+                .limitToLast(20);
         query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {

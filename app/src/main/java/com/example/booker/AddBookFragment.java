@@ -79,7 +79,7 @@ public class AddBookFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController= Navigation.findNavController(view);
-        mStorageRef = FirebaseStorage.getInstance().getReference("Uploads");
+        mStorageRef = FirebaseStorage.getInstance().getReference("Cover Pictures");
         databaseReference=FirebaseDatabase.getInstance().getReference();
         preferences=getActivity().getSharedPreferences("MyPref",Context.MODE_PRIVATE);
         addBookBinding.chooserBTN.setOnClickListener(new View.OnClickListener() {
@@ -195,7 +195,7 @@ public class AddBookFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task task) {
                 if(task.isSuccessful()){
-                    Task task2= databaseReference.child("Users").child(user_key).child("Books").child(uniqueId).setValue(book);
+                    Task task2= databaseReference.child("Users").child(user_key).child("Books").child("Available").child(uniqueId).setValue(book);
                     task2.addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {

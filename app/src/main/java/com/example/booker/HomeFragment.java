@@ -73,14 +73,18 @@ public class HomeFragment extends Fragment {
         adapter=new BookAdapter(bookList);
         homeBinding.allBooksRV.setLayoutManager(layoutManager);
         homeBinding.allBooksRV.setAdapter(adapter);
+        databaseReference= FirebaseDatabase.getInstance().getReference("Books").child("Available");
+
         preferences=this.getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         Boolean hasData= preferences.contains("user_key");
         if(hasData){
             user_key = preferences.getString("user_key", "");
 
+            PreparingAllData();
+            settingUpListView();
+
         }
-        databaseReference= FirebaseDatabase.getInstance().getReference("Books");
-        PreparingAllData();
+
 
     }
 
@@ -92,21 +96,19 @@ public class HomeFragment extends Fragment {
                 for(DataSnapshot singleBook: dataSnapshot.getChildren()){
                     Book book=singleBook.getValue(Book.class);
                     bookList.add(book);
-                    adapter.notifyDataSetChanged();
                 }
-                settingUpListView();
-
-
-
-
+                adapter.notifyDataSetChanged();
 
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
+
+
     }
 
     private void settingUpListView() {

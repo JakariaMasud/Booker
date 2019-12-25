@@ -11,7 +11,12 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_home_to_bookDetailsFragment"
-            app:destination="@id/bookDetailsFragment" />
+            app:destination="@id/bookDetailsFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            />
     </fragment>
     <fragment
         android:label="Profile"
@@ -31,7 +36,11 @@
         tools:layout="@layout/fragment_chat" >
         <action
             android:id="@+id/action_chat_to_messageFragment"
-            app:destination="@id/messageFragment" />
+            app:destination="@id/messageFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:label="My Desk"
@@ -40,7 +49,11 @@
         tools:layout="@layout/fragment_desk" >
         <action
             android:id="@+id/action_deskFragment_to_bookDetailsFragment"
-            app:destination="@id/bookDetailsFragment" />
+            app:destination="@id/bookDetailsFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/bookDetailsFragment"
@@ -52,7 +65,11 @@
             android:defaultValue="default"/>
         <action
             android:id="@+id/action_bookDetailsFragment_to_messageFragment"
-            app:destination="@id/messageFragment" />
+            app:destination="@id/messageFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/messageFragment"

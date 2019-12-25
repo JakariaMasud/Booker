@@ -148,7 +148,7 @@ public class SignUpActivity extends AppCompatActivity {
         userMap.put("userAddress",userAddress);
         userMap.put("isOnline",false);
         userMap.put("lastSeenTimeStamp",ServerValue.TIMESTAMP);
-        userMap.put("profilePicLink",null);
+
 
         databaseReference.child("Users").child(phone).updateChildren(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

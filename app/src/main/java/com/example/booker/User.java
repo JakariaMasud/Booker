@@ -10,21 +10,12 @@ public class User {
     private boolean isOnline;
     private long lastSeenTimeStamp;
     private String profilePicLink;
+    private String deviceToken;
 
     public User() {
     }
 
-    public User(String phone, String name, String email, String profession, String password, Address userAddress, long lastSeenTimeStamp) {
-        this.phone = phone;
-        this.name = name;
-        this.email = email;
-        this.profession = profession;
-        this.password = password;
-        this.userAddress = userAddress;
-        this.lastSeenTimeStamp = lastSeenTimeStamp;
-    }
-
-    public User(String phone, String name, String email, String profession, String password, Address userAddress, boolean isOnline, long lastSeenTimeStamp, String profilePicLink) {
+    public User(String phone, String name, String email, String profession, String password, Address userAddress, boolean isOnline, long lastSeenTimeStamp, String profilePicLink, String deviceToken) {
         this.phone = phone;
         this.name = name;
         this.email = email;
@@ -34,6 +25,18 @@ public class User {
         this.isOnline = isOnline;
         this.lastSeenTimeStamp = lastSeenTimeStamp;
         this.profilePicLink = profilePicLink;
+        this.deviceToken = deviceToken;
+    }
+
+    public User(String phone, String name, String email, String profession, String password, Address userAddress, boolean isOnline, long lastSeenTimeStamp) {
+        this.phone = phone;
+        this.name = name;
+        this.email = email;
+        this.profession = profession;
+        this.password = password;
+        this.userAddress = userAddress;
+        this.isOnline = isOnline;
+        this.lastSeenTimeStamp = lastSeenTimeStamp;
     }
 
     public String getPhone() {
@@ -106,5 +109,13 @@ public class User {
 
     public void setProfilePicLink(String profilePicLink) {
         this.profilePicLink = profilePicLink;
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 }

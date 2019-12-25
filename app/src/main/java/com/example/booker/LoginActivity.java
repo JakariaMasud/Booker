@@ -15,12 +15,19 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.example.booker.databinding.ActivityLoginBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding loginBinding;
@@ -94,14 +101,28 @@ public class LoginActivity extends AppCompatActivity {
 
                 boolean isUser=dataSnapshot.hasChild(phone);
                 if(isUser){
-                   User user= dataSnapshot.child(phone).getValue(User.class);
+                   final User user= dataSnapshot.child(phone).getValue(User.class);
                     sfEditor.putString("user_key",user.getPhone());
                     sfEditor.putBoolean("isChecked",isChecked);
                     sfEditor.commit();
-                    Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                    loginBinding.loginpb.setVisibility(View.GONE);
-                    startActivity(intent);
-                    finish();
+                    Map tokenMap=new HashMap();
+                    FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                            if(task.isSuccessful()){
+                                Map tokenMap=new HashMap();
+                                String token=task.getResult().getToken();
+                                tokenMap.put("deviceToken",token);
+                                databaseReference.child("Users").child(user.getPhone()).updateChildren(tokenMap);
+                                Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                                loginBinding.loginpb.setVisibility(View.GONE);
+                                startActivity(intent);
+                                finish();
+                            }
+
+                        }
+                    });
+
 
 
                 }
