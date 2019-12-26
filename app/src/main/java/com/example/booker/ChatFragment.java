@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -41,6 +42,7 @@ public class ChatFragment extends Fragment {
     String userId;
     String user_key;
     NavController navController;
+    User user;
 
 
 
@@ -105,8 +107,15 @@ public class ChatFragment extends Fragment {
                 userRef.child(user_key).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String userName =dataSnapshot.child("name").getValue().toString();
-                        holder.chatItemBinding.chatUsernameTV.setText(userName);
+                         user =dataSnapshot.getValue(User.class);
+                        holder.chatItemBinding.chatUsernameTV.setText(user.getName());
+                        if(user.getProfilePicLink()==null){
+
+                        }
+                        else
+                        {
+                            Picasso.get().load(user.getProfilePicLink()).into(holder.chatItemBinding.chatProfileIV);
+                        }
 
 
                     }

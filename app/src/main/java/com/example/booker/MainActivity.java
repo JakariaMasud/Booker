@@ -70,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+        if(user_key!=null){
+            Map presenceMap =new HashMap();
+            presenceMap.put("isOnline",true);
+            databaseReference.child("Users").child(user_key).updateChildren(presenceMap);
+        }
         appBarConfiguration =
                 new AppBarConfiguration.Builder(navController.getGraph())
                         .setDrawerLayout(mainBinding.drawerLayout)
@@ -151,11 +156,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-
-        if (!isChecked) {
-            preferences.edit().clear().commit();
+        if(user_key!=null){
+            Map timeMap=new HashMap();
+            timeMap.put("lastSeenTimeStamp", ServerValue.TIMESTAMP);
+            timeMap.put("isOnline",false);
+            databaseReference.child("Users").child(user_key).updateChildren(timeMap);
         }
-        super.onDestroy();
+        if(!isChecked){
+            preferences.edit().clear().commit();
+            super.onDestroy();
+        }
+
+
+
 
     }
 
@@ -196,31 +209,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onStart() {
-        Log.e("check","on start from main activity");
 
-        if(user_key!=null){
-            Map presenceMap =new HashMap();
-            presenceMap.put("isOnline",true);
-            databaseReference.child("Users").child(user_key).updateChildren(presenceMap);
-        }
 
-        super.onStart();
 
-    }
-
-    @Override
-    protected void onStop() {
-        Log.e("check","on stop from main activity");
-
-        if(user_key!=null){
-            Map timeMap=new HashMap();
-            timeMap.put("lastSeenTimeStamp", ServerValue.TIMESTAMP);
-            timeMap.put("isOnline",false);
-            databaseReference.child("Users").child(user_key).updateChildren(timeMap);
-        }
-        super.onStop();
-
-    }
 }

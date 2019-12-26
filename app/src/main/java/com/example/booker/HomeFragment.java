@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
         adapter=new BookAdapter(bookList);
         homeBinding.allBooksRV.setLayoutManager(layoutManager);
         homeBinding.allBooksRV.setAdapter(adapter);
-        databaseReference= FirebaseDatabase.getInstance().getReference("Books").child("Available");
+        databaseReference= FirebaseDatabase.getInstance().getReference("Books");
 
         preferences=this.getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         Boolean hasData= preferences.contains("user_key");

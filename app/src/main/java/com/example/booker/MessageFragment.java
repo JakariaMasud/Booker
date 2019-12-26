@@ -35,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +58,7 @@ public class MessageFragment extends Fragment {
     Message message;
     boolean has;
     private LinearLayoutManager layoutManager;
+    User user;
 
 
 
@@ -179,7 +181,7 @@ public class MessageFragment extends Fragment {
             }
 
             @Override
-            protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull Message model) {
+            protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull final Message model) {
                 switch (holder.getItemViewType()) {
                     case SENDER_VIEW_TYPE:
                         SenderMessageViewHolder senderMessageViewHolder = (SenderMessageViewHolder) holder;
@@ -189,12 +191,21 @@ public class MessageFragment extends Fragment {
                         break;
                     case RECIEVER_VIEW_TYPE:
 
-                        RecieverMessageViewHolder recieverMessageViewHolder = (RecieverMessageViewHolder) holder;
+                        final RecieverMessageViewHolder recieverMessageViewHolder = (RecieverMessageViewHolder) holder;
 
-                        userReference.child(recieverId).addListenerForSingleValueEvent(new ValueEventListener() {
+                        userReference.child(recieverId).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                username=dataSnapshot.child("name").getValue(String.class);
+                                user=dataSnapshot.getValue(User.class);
+                                if(user.getProfilePicLink()==null){
+                                }
+                                Picasso.get().load(user.getProfilePicLink()).into(recieverMessageViewHolder.messageRecievedBinding.recieverIV);
+                                recieverMessageViewHolder.messageRecievedBinding.recieverNameTV.setText(user.getName());
+                                recieverMessageViewHolder.messageRecievedBinding.recieverMessageTV.setText(model.getMessage());
+                                long time_recieved=model.getTimeStamp();
+                                recieverMessageViewHolder.messageRecievedBinding.recievedTimeTV.setText(GetTime.getTimeFromTimeStamp(time_recieved));
+
+
 
                             }
 
@@ -202,11 +213,10 @@ public class MessageFragment extends Fragment {
                             public void onCancelled(@NonNull DatabaseError databaseError) {
                             }
                         });
-                        recieverMessageViewHolder.messageRecievedBinding.recieverNameTV.setText(username);
-                        recieverMessageViewHolder.messageRecievedBinding.recieverMessageTV.setText(model.getMessage());
-                        long time_recieved=model.getTimeStamp();
-                        recieverMessageViewHolder.messageRecievedBinding.recievedTimeTV.setText(GetTime.getTimeFromTimeStamp(time_recieved));
+
                         break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + holder.getItemViewType());
                 }
 
 
