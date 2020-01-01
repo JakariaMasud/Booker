@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(customToolbar);
         preferences = getSharedPreferences("MyPref", MODE_PRIVATE);
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        Boolean hasData = preferences.contains("user_key");
+        boolean hasData = preferences.contains("user_key");
         if (hasData) {
 
             user_key = preferences.getString("user_key", "");
@@ -70,11 +70,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        if(user_key!=null){
-            Map presenceMap =new HashMap();
-            presenceMap.put("isOnline",true);
-            databaseReference.child("Users").child(user_key).updateChildren(presenceMap);
-        }
+
         appBarConfiguration =
                 new AppBarConfiguration.Builder(navController.getGraph())
                         .setDrawerLayout(mainBinding.drawerLayout)
