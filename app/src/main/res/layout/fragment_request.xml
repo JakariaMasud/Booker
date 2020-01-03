@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".DeskFragment">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".RequestFragment">
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
+            android:id="@+id/appBarLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
@@ -15,7 +16,7 @@
                 android:background="@drawable/tab_layout_background"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
-                android:id="@+id/deskTabLayout"
+                android:id="@+id/requestTabLayout"
                 app:tabMode="scrollable"
                 app:tabBackground="@drawable/tab_layout_selector"
                 app:tabSelectedTextColor="@color/colorPrimaryDark"
@@ -29,11 +30,12 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.viewpager.widget.ViewPager
-            android:layout_below="@+id/appBarLayout"
+            android:layout_below="@+id/appBarLayout2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/deskViewPager">
+            android:id="@+id/requestViewPager">
         </androidx.viewpager.widget.ViewPager>
+
 
 
     </RelativeLayout>

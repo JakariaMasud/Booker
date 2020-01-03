@@ -9,7 +9,7 @@ public class BookNotificationService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        String type=remoteMessage.getData().get("Type");
+        String type=String.valueOf(remoteMessage.getData().get("Type"));
         if(remoteMessage.getNotification()!=null){
             String title=remoteMessage.getNotification().getTitle();
             String description=remoteMessage.getNotification().getBody();

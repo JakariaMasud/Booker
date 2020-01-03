@@ -40,11 +40,13 @@ public class BookDetailsFragment extends Fragment {
     FragmentBookDetailsBinding bookDetailsBinding;
     String bookId;
     DatabaseReference databaseReference,notificationReference;
-    User owner;
+    User owner,user;
     String ownerId,userId;
     NavController navController;
     SharedPreferences preferences;
     boolean visibilty=true;
+    Book book;
+
 
 
 
@@ -96,6 +98,8 @@ public class BookDetailsFragment extends Fragment {
             public void onClick(View v) {
                 String key=notificationReference.push().getKey();
                 Map notificationMap=new HashMap();
+                notificationMap.put("bookTitle",book.getTitle());
+                notificationMap.put("requesterName",user.getName());
                 notificationMap.put("requestId",key);
                 notificationMap.put("requesterId",userId);
                 notificationMap.put("bookId",bookId);
@@ -125,7 +129,7 @@ public class BookDetailsFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 boolean isExist=dataSnapshot.exists();
-               Book book =dataSnapshot.getValue(Book.class);
+                book =dataSnapshot.getValue(Book.class);
                 bookDetailsBinding.titleTV.setText("Book Title : "+book.getTitle());
                 bookDetailsBinding.authorTV.setText("Author : "+book.getAuthor());
                 bookDetailsBinding.editionTV.setText("Edition : "+book.getEdition());
@@ -173,11 +177,12 @@ public class BookDetailsFragment extends Fragment {
     }
 
     private void gettingOwnerInfo( ) {
-        databaseReference.child("Users").child(ownerId).addValueEventListener(new ValueEventListener() {
+        databaseReference.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                owner=dataSnapshot.getValue(User.class);
+                owner=dataSnapshot.child(ownerId).getValue(User.class);
+                user=dataSnapshot.child(userId).getValue(User.class);
                 bookDetailsBinding.ownerTV.setText("Book owner : "+owner.getName());
 
 

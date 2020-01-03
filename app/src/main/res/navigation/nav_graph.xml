@@ -79,4 +79,8 @@
             android:name="reciever_id"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/requests"
+        android:name="com.example.booker.RequestFragment"
+        android:label="RequestFragment" />
 </navigation>

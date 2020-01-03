@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="7dp"
+        app:cardUseCompatPadding="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/requestbookIV"
+                android:padding="5dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/book_place_holder"/>
+            <TextView
+                android:id="@+id/request_title"
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jakaria wants one of your book"
+                android:layout_toRightOf="@+id/requestbookIV"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#000">
+            </TextView>
+            <Button
+                android:id="@+id/acceptBTN"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/request_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_shape"
+                android:layout_toRightOf="@+id/requestbookIV"
+                android:text="Accept"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                android:layout_marginRight="15dp"></Button>
+            <Button
+                android:id="@+id/rejectBTN"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/request_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_shape_white"
+                android:layout_toRightOf="@+id/acceptBTN"
+                android:text="Reject"
+                android:textAllCaps="false"
+                android:textColor="#000"></Button>
+        </RelativeLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

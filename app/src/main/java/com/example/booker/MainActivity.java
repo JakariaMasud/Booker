@@ -13,7 +13,6 @@ import androidx.navigation.ui.NavigationUI;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -152,15 +151,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if(user_key!=null){
-            Map timeMap=new HashMap();
-            timeMap.put("lastSeenTimeStamp", ServerValue.TIMESTAMP);
-            timeMap.put("isOnline",false);
-            databaseReference.child("Users").child(user_key).updateChildren(timeMap);
-        }
+        super.onDestroy();
         if(!isChecked){
             preferences.edit().clear().commit();
-            super.onDestroy();
+
         }
 
 

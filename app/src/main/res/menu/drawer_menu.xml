@@ -22,6 +22,7 @@
 
     </item>
 
+
     <item
         android:menuCategory="secondary"
         android:id="@id/chat"
@@ -33,6 +34,12 @@
         android:id="@id/deskFragment"
         android:icon="@drawable/ic_all_book"
         android:title="My Desk">
+    </item>
+    <item
+        android:menuCategory="secondary"
+        android:id="@id/requests"
+        android:icon="@drawable/requests"
+        android:title="Pending Requests">
     </item>
 
 </menu>
