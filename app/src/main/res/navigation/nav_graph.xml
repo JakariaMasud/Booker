@@ -70,6 +70,13 @@
             app:popExitAnim="@anim/slide_out_right"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_bookDetailsFragment_to_mapFragment"
+            app:destination="@id/mapFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/messageFragment"
@@ -83,4 +90,18 @@
         android:id="@+id/requests"
         android:name="com.example.booker.RequestFragment"
         android:label="RequestFragment" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.booker.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" >
+        <argument
+            android:name="reciever_id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/history"
+        android:name="com.example.booker.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" />
 </navigation>

@@ -74,7 +74,8 @@ public class BookDetailsFragment extends Fragment {
 
         if(getArguments()!=null){
            bookId= BookDetailsFragmentArgs.fromBundle(getArguments()).getBookId();
-          settingUpUi();
+
+            settingUpUi();
 
 
         }
@@ -84,18 +85,20 @@ public class BookDetailsFragment extends Fragment {
     }
 
     private void settingUpListener() {
-        notificationReference=FirebaseDatabase.getInstance().getReference().child("Users").child(ownerId).child("Book_requests");
         bookDetailsBinding.ownerChatBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BookDetailsFragmentDirections.ActionBookDetailsFragmentToMessageFragment action =
                         BookDetailsFragmentDirections.actionBookDetailsFragmentToMessageFragment(ownerId);
                 navController.navigate(action);
+
+
             }
         });
         bookDetailsBinding.requestBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                notificationReference=FirebaseDatabase.getInstance().getReference().child("Users").child(ownerId).child("Book_requests");
                 String key=notificationReference.push().getKey();
                 Map notificationMap=new HashMap();
                 notificationMap.put("bookTitle",book.getTitle());
@@ -118,6 +121,16 @@ public class BookDetailsFragment extends Fragment {
                     }
                 });
 
+
+            }
+        });
+
+        bookDetailsBinding.ownerLocationBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BookDetailsFragmentDirections.ActionBookDetailsFragmentToMapFragment actionMap=
+                        BookDetailsFragmentDirections.actionBookDetailsFragmentToMapFragment(ownerId);
+                navController.navigate(actionMap);
 
             }
         });

@@ -11,11 +11,15 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.booker.databinding.FragmentBookRequestBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +27,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -36,7 +42,8 @@ String userId;
 LinearLayoutManager layoutManager;
 BookRequestAdapter adapter;
 List<Request> requestList;
-DatabaseReference databaseReference;
+DatabaseReference databaseReference,userRef;
+Map acceptMap;
 
 
     public BookRequestFragment() {
@@ -57,13 +64,86 @@ DatabaseReference databaseReference;
         super.onViewCreated(view, savedInstanceState);
         sharedPreferences=getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         userId=sharedPreferences.getString("user_key",null);
-        databaseReference= FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Book_requests/");
+        databaseReference= FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Book_requests");
+        userRef=FirebaseDatabase.getInstance().getReference().child("Users");
         requestList=new ArrayList<>();
         layoutManager=new LinearLayoutManager(getContext());
-        adapter=new BookRequestAdapter(requestList,userId);
+        adapter=new BookRequestAdapter(requestList);
         requestBinding.bookRequestRV.setLayoutManager(layoutManager);
         requestBinding.bookRequestRV.setAdapter(adapter);
         prepareAllData();
+        adapter.setRequestClickListener(new RequestClickListener() {
+            @Override
+            public void onRequestClick(int position, View v) {
+                Log.e("request ","click triggered");
+                    final Request request=requestList.get(position);
+                    if(v.getId()==R.id.acceptBTN){
+                        acceptMap=new HashMap();
+                        acceptMap.put("status",true);
+                        databaseReference.child(request.getRequestId()).updateChildren(acceptMap).addOnCompleteListener(new OnCompleteListener() {
+                            @Override
+                            public void onComplete(@NonNull Task task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(getContext(), "request has been accepted", Toast.LENGTH_SHORT).show();
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+                        });
+
+
+                    }
+                    else if(v.getId()==R.id.rejectBTN){
+                        userRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                User user=dataSnapshot.getValue(User.class);
+                                String requesterHistory=user.getName()+" rejected your request for the book "+request.getBookTitle();
+                                String recieverHistory="You have rejected the request of "+request.getRequesterName()+" for the book "+request.getBookTitle();
+                                String type="request rejected";
+                                Map requesterMap=new HashMap();
+                                requesterMap.put("historyMsg",requesterHistory);
+                                requesterMap.put("historyType",type);
+                                Map recieverMap=new HashMap();
+                                recieverMap.put("historyMsg",recieverHistory);
+                                recieverMap.put("historyType",type);
+                                String recieverKey= userRef.child(userId).child("History").push().getKey();
+                                String requesterKey=userRef.child(request.getRequesterId()).child("History").push().getKey();
+                                Map finalMap=new HashMap();
+                                finalMap.put("/"+userId+"/History/"+recieverKey,recieverMap);
+                                finalMap.put("/"+request.getRequesterId()+"/History/"+requesterKey,requesterMap);
+                                userRef.updateChildren(finalMap).addOnCompleteListener(new OnCompleteListener() {
+                                    @Override
+                                    public void onComplete(@NonNull Task task) {
+                                        if(task.isSuccessful()){
+                                            databaseReference.child(request.getRequesterId()).removeValue();
+                                            Toast.makeText(getContext(), "request Has been rejected successfully", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
+
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+
+
+
+
+            }
+
+            @Override
+            public void onRequestLongClick(int position, View v) {
+
+            }
+        });
 
 
     }
@@ -74,9 +154,10 @@ DatabaseReference databaseReference;
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 requestList.clear();
                 for(DataSnapshot item:dataSnapshot.getChildren()){
-                    Request request=item.getValue(Request.class);
-                    if(!request.status){
-                        requestList.add(request);
+
+                    Request reqObj=item.getValue(Request.class);
+                    if(!reqObj.status){
+                        requestList.add(reqObj);
                     }
 
                 }
@@ -89,6 +170,7 @@ DatabaseReference databaseReference;
 
             }
         });
+
 
     }
 }

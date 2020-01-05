@@ -31,18 +31,23 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ChatFragment extends Fragment {
     FragmentChatBinding chatBinding;
-    DatabaseReference messageRef,userRef,lastMsgRef;
+    DatabaseReference chatRef,userRef;
     SharedPreferences sharedPreferences;
     String userId;
     String user_key;
     NavController navController;
-    User user;
+    List<Message>messageList;
+    List<User> userList;
+    ChatAdapter adapter;
 
 
 
@@ -68,104 +73,68 @@ public class ChatFragment extends Fragment {
         navController= Navigation.findNavController(view);
         sharedPreferences=getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         userId= sharedPreferences.getString("user_key",null);
-
-        messageRef= FirebaseDatabase.getInstance().getReference("Chats").child(userId);
-        lastMsgRef= FirebaseDatabase.getInstance().getReference("Chats").child(userId);
-
+        messageList=new ArrayList<>();
+        userList=new ArrayList<>();
+        adapter=new ChatAdapter(messageList,userList);
+        chatRef= FirebaseDatabase.getInstance().getReference("Chats").child(userId);
         userRef=FirebaseDatabase.getInstance().getReference("Users");
         chatBinding.chatUserListRV.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseRecyclerOptions <User> options=new FirebaseRecyclerOptions.Builder<User>()
-                .setQuery(messageRef,User.class)
-                .build();
-        FirebaseRecyclerAdapter<User,ChatItemViewHolder> adapter=new FirebaseRecyclerAdapter<User, ChatItemViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull final ChatItemViewHolder holder, int position, @NonNull User model) {
-                user_key=getRef(position).getKey();
-                Query lastQuery = lastMsgRef.child(user_key).orderByKey().limitToLast(1);
-                lastQuery.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
-                        for (DataSnapshot lastmsg:dataSnapshot.getChildren()){
-                            String message = lastmsg.child("message").getValue().toString();
-                            holder.chatItemBinding.lastMsgTV.setText(message);
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-                userRef.child(user_key).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                         user =dataSnapshot.getValue(User.class);
-                        holder.chatItemBinding.chatUsernameTV.setText(user.getName());
-                        if(user.getProfilePicLink()==null){
-
-                        }
-                        else
-                        {
-                            Picasso.get().load(user.getProfilePicLink()).into(holder.chatItemBinding.chatProfileIV);
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-            }
-
-            @NonNull
-            @Override
-            public ChatItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                LayoutInflater inflater=LayoutInflater.from(getContext());
-                SingleChatItemBinding chatItemBinding=DataBindingUtil.inflate(inflater,R.layout.single_chat_item,parent,false);
-                return new ChatItemViewHolder(chatItemBinding);
-            }
-
-        };
         chatBinding.chatUserListRV.setAdapter(adapter);
-        adapter.startListening();
+        chatRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot item:dataSnapshot.getChildren()){
+
+                    final String key=item.getKey();
+                    Query lastQuery=chatRef.child(key).orderByKey().limitToLast(1);
+                    lastQuery.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            final Message message=dataSnapshot.getValue(Message.class);
+
+                            userRef.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                   User user= dataSnapshot.getValue(User.class);
+                                   messageList.add(message);
+                                   userList.add(user);
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
 
 
-    }
-    public class ChatItemViewHolder extends RecyclerView.ViewHolder {
-        SingleChatItemBinding chatItemBinding;
-        public ChatItemViewHolder(@NonNull SingleChatItemBinding  item) {
-            super(item.getRoot());
-            chatItemBinding=item;
-            chatItemBinding.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ChatFragmentDirections.ActionChatToMessageFragment action=ChatFragmentDirections.actionChatToMessageFragment(user_key);
-                    navController.navigate(action);
 
+                        }
 
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-
-
+                        }
+                    });
+                    adapter.notifyDataSetChanged();
 
                 }
-            });
-        }
+
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
 
-    }
+
 }

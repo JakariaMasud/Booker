@@ -1,28 +1,22 @@
 package com.example.booker;
 
 public class Request {
-    String bookTitle,requesterName,requestId,requesterId,bookId,timeStamp,coverLink;
+    String bookTitle,requesterName,requestId,requesterId,bookId,coverLink;
+    Long timeStamp;
     boolean status;
 
     public Request() {
     }
 
-    public Request(String bookTitle, String requesterName, String requestId, String requesterId, String bookId, String timeStamp,String coverLink, boolean status) {
+    public Request(String bookTitle, String requesterName, String requestId, String requesterId, String bookId, String coverLink, Long timeStamp, boolean status) {
         this.bookTitle = bookTitle;
         this.requesterName = requesterName;
         this.requestId = requestId;
         this.requesterId = requesterId;
         this.bookId = bookId;
+        this.coverLink = coverLink;
         this.timeStamp = timeStamp;
         this.status = status;
-    }
-
-    public String getCoverLink() {
-        return coverLink;
-    }
-
-    public void setCoverLink(String coverLink) {
-        this.coverLink = coverLink;
     }
 
     public String getBookTitle() {
@@ -65,11 +59,19 @@ public class Request {
         this.bookId = bookId;
     }
 
-    public String getTimeStamp() {
+    public String getCoverLink() {
+        return coverLink;
+    }
+
+    public void setCoverLink(String coverLink) {
+        this.coverLink = coverLink;
+    }
+
+    public Long getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
+    public void setTimeStamp(Long timeStamp) {
         this.timeStamp = timeStamp;
     }
 

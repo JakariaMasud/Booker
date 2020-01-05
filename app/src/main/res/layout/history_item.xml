@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="7dp"
+        app:cardUseCompatPadding="true">
+        <TextView
+            android:id="@+id/historyTV"
+            android:drawableLeft="@drawable/edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="you Have accepted karim requeat for the book "
+            android:padding="10dp"
+            android:textAllCaps="false"
+            android:textSize="15sp"
+            android:textStyle="bold|italic"
+            android:textColor="#0F74C2"
+            android:drawablePadding="7dp">
+
+        </TextView>
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

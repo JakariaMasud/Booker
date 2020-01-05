@@ -4,13 +4,13 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ReturnRequestFragment">
+        tools:context=".HistoryFragment">
 
-        <!-- TODO: Update blank fragment layout -->
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/returnRequestRV">
+            android:id="@+id/historyRV">
+
         </androidx.recyclerview.widget.RecyclerView>
 
     </FrameLayout>

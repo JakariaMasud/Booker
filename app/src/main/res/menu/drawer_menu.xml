@@ -41,5 +41,11 @@
         android:icon="@drawable/requests"
         android:title="Pending Requests">
     </item>
+    <item
+        android:menuCategory="secondary"
+        android:id="@id/history"
+        android:icon="@drawable/history_ic"
+        android:title="History">
+    </item>
 
 </menu>
