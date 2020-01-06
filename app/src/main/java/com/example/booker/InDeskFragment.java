@@ -14,9 +14,13 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.example.booker.databinding.FragmentInDeskBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -72,6 +76,22 @@ public class InDeskFragment extends Fragment {
         }
         databaseReference= FirebaseDatabase.getInstance().getReference("Users");
         PreparingAllData();
+        adapter.setOnBookClickListener(new BookClickListener() {
+            @Override
+            public void onBookClick(int position, View v) {
+                String book_id=bookList.get(position).getBookId();
+                DeskFragmentDirections.ActionDeskFragmentToBookDetailsFragment action=DeskFragmentDirections.actionDeskFragmentToBookDetailsFragment();
+                action.setBookId(book_id);
+                navController.navigate(action);
+            }
+
+            @Override
+            public void onBookLongClick(int position, View v) {
+                Log.e("On Long clicked","on book long click fired");
+
+
+            }
+        });
 
     }
     private void PreparingAllData() {
@@ -94,4 +114,31 @@ public class InDeskFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int position=item.getGroupId();
+
+        switch(item.getItemId()) {
+            case 110:
+                DeskFragmentDirections.ActionDeskFragmentToEditFragment
+                        editAction=DeskFragmentDirections.actionDeskFragmentToEditFragment(bookList.get(position));
+                navController.navigate(editAction);
+                return true;
+            case 111:
+
+                String book_id=bookList.get(position).getBookId();
+                DeskFragmentDirections.ActionDeskFragmentToBookDetailsFragment
+                        action=DeskFragmentDirections.actionDeskFragmentToBookDetailsFragment();
+                action.setBookId(book_id);
+                navController.navigate(action);
+                return true;
+
+                default:
+                    return super.onContextItemSelected(item);
+        }
+
+    }
+
+
 }

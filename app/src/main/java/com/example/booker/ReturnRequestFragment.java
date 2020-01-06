@@ -41,7 +41,7 @@ public class ReturnRequestFragment extends Fragment {
     SharedPreferences sharedPreferences;
     String userId;
     LinearLayoutManager layoutManager;
-    DatabaseReference databaseReference,userRef;
+    DatabaseReference databaseReference,userRef,requestRef;
     Map acceptMap;
 
 
@@ -64,6 +64,7 @@ public class ReturnRequestFragment extends Fragment {
         sharedPreferences=getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         userId=sharedPreferences.getString("user_key",null);
         databaseReference= FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Return_requests");
+        requestRef= FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Return_requests");
         userRef=FirebaseDatabase.getInstance().getReference().child("Users");
         requestList=new ArrayList<>();
         layoutManager=new LinearLayoutManager(getContext());
@@ -108,7 +109,7 @@ public class ReturnRequestFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(getContext(), "return request has benn accepted", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "return request has been accepted", Toast.LENGTH_SHORT).show();
                                 adapter.notifyDataSetChanged();
                             }
                         }
@@ -139,8 +140,17 @@ public class ReturnRequestFragment extends Fragment {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
                                     if(task.isSuccessful()){
-                                        databaseReference.child(request.getRequesterId()).removeValue();
-                                        Toast.makeText(getContext(), "return request Has been rejected successfully", Toast.LENGTH_SHORT).show();
+                                        requestRef.child(request.getRequesterId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()){
+                                                    Toast.makeText(getContext(), "return request Has been rejected successfully", Toast.LENGTH_SHORT).show();
+                                                    adapter.notifyDataSetChanged();
+                                                }
+
+                                            }
+                                        });
+
                                     }
                                 }
                             });

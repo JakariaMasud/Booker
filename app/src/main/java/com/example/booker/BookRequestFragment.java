@@ -42,7 +42,7 @@ String userId;
 LinearLayoutManager layoutManager;
 BookRequestAdapter adapter;
 List<Request> requestList;
-DatabaseReference databaseReference,userRef;
+DatabaseReference databaseReference,userRef,requestRef;
 Map acceptMap;
 
 
@@ -65,6 +65,7 @@ Map acceptMap;
         sharedPreferences=getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         userId=sharedPreferences.getString("user_key",null);
         databaseReference= FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Book_requests");
+        requestRef= FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Book_requests");
         userRef=FirebaseDatabase.getInstance().getReference().child("Users");
         requestList=new ArrayList<>();
         layoutManager=new LinearLayoutManager(getContext());
@@ -115,8 +116,17 @@ Map acceptMap;
                                     @Override
                                     public void onComplete(@NonNull Task task) {
                                         if(task.isSuccessful()){
-                                            databaseReference.child(request.getRequesterId()).removeValue();
-                                            Toast.makeText(getContext(), "request Has been rejected successfully", Toast.LENGTH_SHORT).show();
+                                            databaseReference.child(request.getRequesterId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()){
+                                                        Toast.makeText(getContext(), "request Has been rejected successfully", Toast.LENGTH_SHORT).show();
+                                                        adapter.notifyDataSetChanged();
+                                                    }
+
+                                                }
+                                            });
+
                                         }
                                     }
                                 });

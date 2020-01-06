@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
     private DatabaseReference databaseReference;
     List<Book> bookList;
     RecyclerView.LayoutManager layoutManager;
-    BookAdapter adapter;
+    BookAdapterHome adapter;
     String user_key;
     NavController navController;
 
@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment {
         navController= Navigation.findNavController(view);
         layoutManager=new LinearLayoutManager(getActivity());
         bookList=new ArrayList<>();
-        adapter=new BookAdapter(bookList);
+        adapter=new BookAdapterHome(bookList);
         homeBinding.allBooksRV.setLayoutManager(layoutManager);
         homeBinding.allBooksRV.setAdapter(adapter);
         databaseReference= FirebaseDatabase.getInstance().getReference("Books");
@@ -132,15 +132,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    @Override
-    public void onStart() {
-        Log.e("check","on start from home fragment");
-        super.onStart();
-    }
 
-    @Override
-    public void onStop() {
-        Log.e("check","on stop from home fragment");
-        super.onStop();
-    }
+
+
 }

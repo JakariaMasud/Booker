@@ -15,7 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -45,7 +48,7 @@ public class BookBorrowFragment extends Fragment {
     private SharedPreferences preferences;
     List<Book> borrowedBookList;
     RecyclerView.LayoutManager layoutManager;
-    BookAdapter adapter;
+    BookBorrowAdapter adapter;
     String user_key;
     NavController navController;
     User user;
@@ -73,7 +76,7 @@ public class BookBorrowFragment extends Fragment {
         navController= Navigation.findNavController(view);
         layoutManager=new LinearLayoutManager(getActivity());
         borrowedBookList=new ArrayList<>();
-        adapter=new BookAdapter(borrowedBookList);
+        adapter=new BookBorrowAdapter(borrowedBookList);
         borrowBinding.borrowBooksRV.setLayoutManager(layoutManager);
         borrowBinding.borrowBooksRV.setAdapter(adapter);
         preferences=getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
@@ -90,27 +93,7 @@ public class BookBorrowFragment extends Fragment {
         adapter.setOnBookClickListener(new BookClickListener() {
             @Override
             public void onBookClick(int position, View v) {
-                if(borrowedBookList.size()>0){
-                    String key=databaseReference.child(user_key).child("Return_requests").push().getKey();
-                    Map notificationMap=new HashMap();
-                    book=borrowedBookList.get(position);
-                    notificationMap.put("bookTitle",book.getTitle());
-                    notificationMap.put("requesterName",user.getName());
-                    notificationMap.put("requestId",key);
-                    notificationMap.put("requesterId",user_key);
-                    notificationMap.put("bookId",book.getBookId());
-                    notificationMap.put("timeStamp", ServerValue.TIMESTAMP);
-                    notificationMap.put("status",false);
-                    databaseReference.child("Users").child(book.getOwnerId()).child("Return_requests").child(key).updateChildren(notificationMap).addOnCompleteListener(new OnCompleteListener() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(getContext(), "Return request sent", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
 
-                }
 
 
 
@@ -122,6 +105,30 @@ public class BookBorrowFragment extends Fragment {
             }
         });
 
+    }
+
+    private void sendReturnRequest(int position) {
+        if(borrowedBookList.size()>0){
+            String key=databaseReference.child(user_key).child("Return_requests").push().getKey();
+            Map notificationMap=new HashMap();
+            book=borrowedBookList.get(position);
+            notificationMap.put("bookTitle",book.getTitle());
+            notificationMap.put("requesterName",user.getName());
+            notificationMap.put("requestId",key);
+            notificationMap.put("requesterId",user_key);
+            notificationMap.put("bookId",book.getBookId());
+            notificationMap.put("timeStamp", ServerValue.TIMESTAMP);
+            notificationMap.put("status",false);
+            databaseReference.child("Users").child(book.getOwnerId()).child("Return_requests").child(key).updateChildren(notificationMap).addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(getContext(), "Return request sent", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+        }
     }
 
     private void gettingAllData() {
@@ -157,5 +164,25 @@ public class BookBorrowFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int position=item.getGroupId();
+
+        switch(item.getItemId()) {
+            case 210:
+                String ownerId=borrowedBookList.get(position).getOwnerId();
+                DeskFragmentDirections.ActionDeskFragmentToMessageFragment action=DeskFragmentDirections.actionDeskFragmentToMessageFragment(ownerId);
+                navController.navigate(action);
+                return true;
+            case 211:
+                sendReturnRequest(position);
+
+                return true;
+
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 }

@@ -53,10 +53,8 @@ public class MessageFragment extends Fragment {
     SharedPreferences preferences;
     private static final int SENDER_VIEW_TYPE = 100;
     private static final int RECIEVER_VIEW_TYPE = 200;
-    String username,key;
     FirebaseRecyclerAdapter<Message,RecyclerView.ViewHolder> adapter;
     Message message;
-    boolean has;
     private LinearLayoutManager layoutManager;
     String profiePic,userName;
     boolean isRetrived,isChecked;
@@ -89,8 +87,8 @@ public class MessageFragment extends Fragment {
         recieverId=MessageFragmentArgs.fromBundle(getArguments()).getRecieverId();
         databaseReference= FirebaseDatabase.getInstance().getReference().child("Users");
         userReference= FirebaseDatabase.getInstance().getReference().child("Users");
-        messageReference= FirebaseDatabase.getInstance().getReference("Users").child(senderId).child("Chats/").child(recieverId+"/Messages/");
-        profileRef=FirebaseDatabase.getInstance().getReference("Users").child(senderId).child("Chats/").child(recieverId);
+        messageReference= FirebaseDatabase.getInstance().getReference("Users").child(senderId).child("Chats/").child(recieverId+"/Messages");
+        profileRef=FirebaseDatabase.getInstance().getReference("Users");
         retrieveAndCheck();
 
         messageBinding.messageRV.setLayoutManager(layoutManager);
@@ -104,7 +102,7 @@ public class MessageFragment extends Fragment {
                     return;
                 }
                 else {
-                    String msgKey=databaseReference.child(senderId).child("Chats").child(recieverId).child("Messages/").push().getKey();
+                    String msgKey=databaseReference.child(senderId).child("Chats").child(recieverId).child("Messages").push().getKey();
                     Map messageMap=new HashMap<>();
                     messageMap.put("message",message);
                     messageMap.put("timeStamp",ServerValue.TIMESTAMP);
@@ -154,7 +152,7 @@ public class MessageFragment extends Fragment {
                     Map infoMap=new HashMap();
                     infoMap.put("name",userName);
                     infoMap.put("profilePicLink",profiePic);
-                    databaseReference.child(senderId).child("Chats").child(recieverId).updateChildren(infoMap).addOnCompleteListener(new OnCompleteListener() {
+                    profileRef.child(senderId).child("Chats").child(recieverId).updateChildren(infoMap).addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
                             if(task.isSuccessful()){

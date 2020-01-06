@@ -1,6 +1,5 @@
 package com.example.booker;
 
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
+public class BookAdapterHome extends RecyclerView.Adapter<BookAdapterHome.BookHolder> {
     List<Book> bookList;
     private static BookClickListener bookClickListener;
 
-    public BookAdapter(List<Book> bookList) {
+    public BookAdapterHome(List<Book> bookList) {
         this.bookList = bookList;
     }
 
@@ -47,7 +46,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
         return bookList.size();
     }
 
-    public class BookHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+    public class BookHolder extends RecyclerView.ViewHolder{
         private SingleBookBinding singleBookBinding;
 
         public BookHolder(@NonNull final SingleBookBinding bookBinding) {
@@ -59,14 +58,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
                      bookClickListener.onBookClick(getAdapterPosition(),v);
                  }
              });
-            bookBinding.getRoot().setOnCreateContextMenuListener(this);
-
-        }
-
-        @Override
-        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-          menu.add(this.getAdapterPosition(),110,0,"Edit Book Info");
-          menu.add(this.getAdapterPosition(),111,0,"View Details");
 
         }
     }

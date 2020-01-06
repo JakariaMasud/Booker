@@ -38,7 +38,7 @@ public class BookLendFragment extends Fragment {
     private SharedPreferences preferences;
     List<Book> lendBookList;
     RecyclerView.LayoutManager layoutManager;
-    BookAdapter adapter;
+    BookLendAdapter adapter;
     String user_key;
     NavController navController;
 
@@ -62,7 +62,7 @@ public class BookLendFragment extends Fragment {
         navController= Navigation.findNavController(view);
         layoutManager=new LinearLayoutManager(getActivity());
         lendBookList=new ArrayList<>();
-        adapter=new BookAdapter(lendBookList);
+        adapter=new BookLendAdapter(lendBookList);
         lendBinding.lendbooksRV.setLayoutManager(layoutManager);
         lendBinding.lendbooksRV.setAdapter(adapter);
         preferences=getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);

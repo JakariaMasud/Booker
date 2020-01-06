@@ -14,11 +14,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
+public class BookBorrowAdapter extends RecyclerView.Adapter<BookBorrowAdapter.BookHolder> {
     List<Book> bookList;
     private static BookClickListener bookClickListener;
 
-    public BookAdapter(List<Book> bookList) {
+    public BookBorrowAdapter(List<Book> bookList) {
         this.bookList = bookList;
     }
 
@@ -59,14 +59,15 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
                      bookClickListener.onBookClick(getAdapterPosition(),v);
                  }
              });
-            bookBinding.getRoot().setOnCreateContextMenuListener(this);
+             bookBinding.getRoot().setOnCreateContextMenuListener(this);
+
 
         }
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-          menu.add(this.getAdapterPosition(),110,0,"Edit Book Info");
-          menu.add(this.getAdapterPosition(),111,0,"View Details");
+            menu.add(this.getAdapterPosition(),210,0,"Chat With owner");
+            menu.add(this.getAdapterPosition(),211,0,"Send Return Request");
 
         }
     }

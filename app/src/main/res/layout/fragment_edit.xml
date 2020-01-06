@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".EditFragment">
+        <RelativeLayout
+            android:layout_marginBottom="150dp"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/edit_pageTV"
+                    android:gravity="center"
+                    android:padding="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Update Book Info"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    />
+                <EditText
+                    android:id="@+id/edit_titleET"
+                    android:layout_marginBottom="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:hint="Enter Book Title"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:padding="5dp"
+                    android:textSize="15sp"
+                    android:inputType="text" />
+                <EditText
+                    android:id="@+id/edit_authorET"
+                    android:layout_marginBottom="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:hint="Enter Author name"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:padding="5dp"
+                    android:textSize="15sp"
+                    android:inputType="textPersonName" />
+                <EditText
+                    android:id="@+id/edit_isbnET"
+                    android:layout_marginBottom="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:hint="Enter ISBN No."
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:padding="5dp"
+                    android:textSize="15sp"
+                    android:inputType="text" />
+                <EditText
+                    android:id="@+id/edit_publilsherET"
+                    android:layout_marginBottom="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:hint="Enter Publisher Name"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:padding="5dp"
+                    android:textSize="15sp"
+                    android:inputType="text" />
+                <EditText
+                    android:id="@+id/edit_genreET"
+                    android:layout_marginBottom="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:hint="Enter Genre"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:padding="5dp"
+                    android:textSize="15sp"
+                    android:inputType="text" />
+                <EditText
+                    android:id="@+id/edit_editionET"
+                    android:layout_marginBottom="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:hint="Enter the number of Edition"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:padding="5dp"
+                    android:textSize="15sp"
+                    android:inputType="text" />
+                <EditText
+                    android:id="@+id/edit_languageET"
+                    android:layout_marginBottom="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:hint="Enter Language "
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:padding="5dp"
+                    android:textSize="15sp"
+                    android:inputType="text" />
+                <EditText
+                    android:id="@+id/edit_pageET"
+                    android:layout_marginBottom="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:hint="Enter The number oF Page"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:padding="5dp"
+                    android:textSize="15sp"
+                    android:inputType="text" />
+                <EditText
+                    android:id="@+id/edit_caution_moneyET"
+                    android:layout_marginBottom="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:hint="Enter Security Money for The Book"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:padding="5dp"
+                    android:textSize="15sp"
+                    android:inputType="numberDecimal" />
+                <Button
+                    android:id="@+id/edit_chooserBTN"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_marginRight="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="@drawable/rectangle_shape"
+                    android:textColor="#000000"
+                    android:text="Update Cover Photo"
+
+                    android:textAllCaps="false"/>
+                <CheckBox
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/previousCB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Keep previous Cover " />
+                <Button
+                    android:id="@+id/edit_updateBTN"
+                    android:padding="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button_shape"
+                    android:textColor="#ffffff"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="Update Book"
+                    android:textAllCaps="false"/>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+</layout>
