@@ -23,12 +23,8 @@ import com.example.booker.databinding.FragmentChatBinding;
 import com.example.booker.databinding.SingleChatItemBinding;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -42,12 +38,13 @@ public class ChatFragment extends Fragment {
     FragmentChatBinding chatBinding;
     DatabaseReference chatRef,userRef;
     SharedPreferences sharedPreferences;
-    String userId;
-    String user_key;
-    NavController navController;
+    static String userId;
+    static NavController navController;
     List<Message>messageList;
     List<User> userList;
-    ChatAdapter adapter;
+    FirebaseRecyclerAdapter adapter;
+    DatabaseReference chatListRef;
+    RecyclerView.LayoutManager layoutManager;
 
 
 
@@ -73,68 +70,73 @@ public class ChatFragment extends Fragment {
         navController= Navigation.findNavController(view);
         sharedPreferences=getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         userId= sharedPreferences.getString("user_key",null);
+        chatListRef=FirebaseDatabase.getInstance().getReference("Users").child(userId).child("Chats");
         messageList=new ArrayList<>();
         userList=new ArrayList<>();
-        adapter=new ChatAdapter(messageList,userList);
-        chatRef= FirebaseDatabase.getInstance().getReference("Chats").child(userId);
+        layoutManager=new LinearLayoutManager(getContext());
         userRef=FirebaseDatabase.getInstance().getReference("Users");
-        chatBinding.chatUserListRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        chatBinding.chatUserListRV.setAdapter(adapter);
-        chatRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot item:dataSnapshot.getChildren()){
+        chatBinding.chatUserListRV.setLayoutManager(layoutManager);
 
-                    final String key=item.getKey();
-                    Query lastQuery=chatRef.child(key).orderByKey().limitToLast(1);
-                    lastQuery.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            final Message message=dataSnapshot.getValue(Message.class);
-
-                            userRef.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                   User user= dataSnapshot.getValue(User.class);
-                                   messageList.add(message);
-                                   userList.add(user);
-
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-
-
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-                    adapter.notifyDataSetChanged();
-
-                }
-
-
-
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseRecyclerOptions<Info> options=new FirebaseRecyclerOptions.Builder<Info>()
+                .setQuery(chatListRef,Info.class)
+                .build();
+
+        adapter=new FirebaseRecyclerAdapter<Info,ChatViewHolder>(options){
+
+            @NonNull
+            @Override
+            public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                LayoutInflater layoutInflater=LayoutInflater.from(parent.getContext());
+                SingleChatItemBinding binding= DataBindingUtil
+                        .inflate(layoutInflater,R.layout.single_chat_item,parent,false);
+                return new ChatViewHolder(binding);
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull ChatViewHolder holder, int position, @NonNull Info model) {
+                Log.e("model",model.toString());
+                final String KEY=getRef(position).getKey();
+                holder.itemBinding.lastMsgTV.setText(model.getLast_Msg().getMessage());
+                holder.itemBinding.chatUsernameTV.setText(model.getName());
+                if(model.getProfilePicLink()!=null){
+                    Picasso.get().load(model.getProfilePicLink())
+                            .placeholder(R.drawable.user_profile).into(holder.itemBinding.chatProfileIV);
+                }
+                holder.itemBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ChatFragmentDirections.ActionChatToMessageFragment action=ChatFragmentDirections.actionChatToMessageFragment(KEY);
+                        navController.navigate(action);
+                    }
+                });
 
 
+            }
+        };
+        chatBinding.chatUserListRV.setAdapter(adapter);
+        adapter.startListening();
+
+    }
+    public  static  class ChatViewHolder extends RecyclerView.ViewHolder{
+        SingleChatItemBinding itemBinding;
+
+        public ChatViewHolder(@NonNull SingleChatItemBinding itemView) {
+            super(itemView.getRoot());
+            itemBinding=itemView;
+
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
 }

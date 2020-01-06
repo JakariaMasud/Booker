@@ -90,18 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/add_location_black_24dp"/>
-            <TextView
-                android:id="@+id/active_statusTV"
-                android:textColor="@color/quantum_black_100"
-                android:text="Active "
-                android:drawablePadding="10dp"
-                android:padding="10dp"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/add_location_black_24dp"/>
+
 
         </LinearLayout>
 

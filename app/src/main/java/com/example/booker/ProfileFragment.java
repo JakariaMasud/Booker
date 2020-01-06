@@ -85,20 +85,15 @@ public class ProfileFragment extends Fragment {
                 if (user.getProfilePicLink() == null) {
 
                 } else {
-                    Picasso.get().load(user.getProfilePicLink()).into(profileBinding.profileImage);
+                    Picasso.get().load(user.getProfilePicLink())
+                            .placeholder(R.drawable.user_profile)
+                            .into(profileBinding.profileImage);
                 }
                 profileBinding.nameTV.setText(user.getName());
                 profileBinding.occupationTV.setText("Works as a " + user.getProfession());
                 profileBinding.emailTV.setText(user.getEmail());
                 profileBinding.phoneTV.setText(user.getPhone());
                 profileBinding.locationTV.setText(user.getUserAddress().getAddress());
-                if (user.isOnline()) {
-                    profileBinding.activeStatusTV.setText("Active Now");
-
-                } else {
-                    String timeAgo = GetTimeAgo.getTimeAgo(user.getLastSeenTimeStamp(), getContext());
-                    profileBinding.activeStatusTV.setText("Active Since " + timeAgo);
-                }
 
 
             }

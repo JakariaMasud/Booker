@@ -48,7 +48,7 @@ import java.util.Map;
  */
 public class MessageFragment extends Fragment {
     private FragmentMessageBinding messageBinding;
-    DatabaseReference databaseReference,messageReference,userReference,currentMsgRef;
+    DatabaseReference databaseReference,messageReference,userReference,profileRef;
     String recieverId,senderId,msgSenderId;
     SharedPreferences preferences;
     private static final int SENDER_VIEW_TYPE = 100;
@@ -58,7 +58,8 @@ public class MessageFragment extends Fragment {
     Message message;
     boolean has;
     private LinearLayoutManager layoutManager;
-    User user;
+    String profiePic,userName;
+    boolean isRetrived,isChecked;
 
 
 
@@ -86,10 +87,11 @@ public class MessageFragment extends Fragment {
         layoutManager.setReverseLayout(true);
         layoutManager.setReverseLayout(false);
         recieverId=MessageFragmentArgs.fromBundle(getArguments()).getRecieverId();
-        databaseReference= FirebaseDatabase.getInstance().getReference();
+        databaseReference= FirebaseDatabase.getInstance().getReference().child("Users");
         userReference= FirebaseDatabase.getInstance().getReference().child("Users");
-        messageReference= FirebaseDatabase.getInstance().getReference().child("Chats").child(senderId).child(recieverId+"/");
-        currentMsgRef= FirebaseDatabase.getInstance().getReference().child("Chats").child(senderId).child(recieverId);
+        messageReference= FirebaseDatabase.getInstance().getReference("Users").child(senderId).child("Chats/").child(recieverId+"/Messages/");
+        profileRef=FirebaseDatabase.getInstance().getReference("Users").child(senderId).child("Chats/").child(recieverId);
+        retrieveAndCheck();
 
         messageBinding.messageRV.setLayoutManager(layoutManager);
 
@@ -102,18 +104,23 @@ public class MessageFragment extends Fragment {
                     return;
                 }
                 else {
-                    String msgKey=databaseReference.child("Chats").child(senderId).child(recieverId).push().getKey();
+                    String msgKey=databaseReference.child(senderId).child("Chats").child(recieverId).child("Messages/").push().getKey();
                     Map messageMap=new HashMap<>();
                     messageMap.put("message",message);
                     messageMap.put("timeStamp",ServerValue.TIMESTAMP);
                     messageMap.put("senderId",senderId);
                     messageMap.put("type","Text");
-                    String senderRef="Chats/"+senderId+"/"+recieverId+"/"+msgKey;
-                    String recieverRef="Chats/"+recieverId+"/"+senderId+"/"+msgKey;
+                    String senderRef=senderId+"/Chats/"+recieverId+"/Messages/"+msgKey;
+                    String senderRefLast=senderId+"/Chats/"+recieverId+"/Last_Msg";
+
+                    String recieverRef=recieverId+"/Chats/"+senderId+"/Messages/"+msgKey;
+                    String recieverRefLast=recieverId+"/Chats/"+senderId+"/Last_Msg";
 
                     Map userMap=new HashMap();
                     userMap.put(senderRef,messageMap);
                     userMap.put(recieverRef,messageMap);
+                    userMap.put(senderRefLast,messageMap);
+                    userMap.put(recieverRefLast,messageMap);
                     databaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
@@ -132,6 +139,48 @@ public class MessageFragment extends Fragment {
 
 
     }
+
+    private void retrieveAndCheck() {
+        userReference.child(recieverId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                User user=dataSnapshot.getValue(User.class);
+
+                userName=user.getName();
+                profiePic=user.getProfilePicLink();
+                isRetrived=true;
+                if(!isChecked){
+                    Map infoMap=new HashMap();
+                    infoMap.put("name",userName);
+                    infoMap.put("profilePicLink",profiePic);
+                    databaseReference.child(senderId).child("Chats").child(recieverId).updateChildren(infoMap).addOnCompleteListener(new OnCompleteListener() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
+                            if(task.isSuccessful()){
+                                isChecked=true;
+                                messageBinding.messageRV.setAdapter(adapter);
+                                adapter.startListening();
+                            }
+
+                        }
+                    });
+
+                }
+
+
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
 
     @Override
     public void onStart() {
@@ -192,27 +241,16 @@ public class MessageFragment extends Fragment {
                     case RECIEVER_VIEW_TYPE:
 
                         final RecieverMessageViewHolder recieverMessageViewHolder = (RecieverMessageViewHolder) holder;
-
-                        userReference.child(recieverId).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                user=dataSnapshot.getValue(User.class);
-                                if(user.getProfilePicLink()==null){
-                                }
-                                Picasso.get().load(user.getProfilePicLink()).into(recieverMessageViewHolder.messageRecievedBinding.recieverIV);
-                                recieverMessageViewHolder.messageRecievedBinding.recieverNameTV.setText(user.getName());
-                                recieverMessageViewHolder.messageRecievedBinding.recieverMessageTV.setText(model.getMessage());
-                                long time_recieved=model.getTimeStamp();
-                                recieverMessageViewHolder.messageRecievedBinding.recievedTimeTV.setText(GetTime.getTimeFromTimeStamp(time_recieved));
+                        if(isRetrived){
+                            Picasso.get().load(profiePic).placeholder(R.drawable.user_profile).into(recieverMessageViewHolder.messageRecievedBinding.recieverIV);
+                            recieverMessageViewHolder.messageRecievedBinding.recieverNameTV.setText(userName);
+                            recieverMessageViewHolder.messageRecievedBinding.recieverMessageTV.setText(model.getMessage());
+                            long time_recieved=model.getTimeStamp();
+                            recieverMessageViewHolder.messageRecievedBinding.recievedTimeTV.setText(GetTime.getTimeFromTimeStamp(time_recieved));
+                        }
 
 
 
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                            }
-                        });
 
                         break;
                     default:
@@ -238,8 +276,7 @@ public class MessageFragment extends Fragment {
             }
 
         };
-        messageBinding.messageRV.setAdapter(adapter);
-        adapter.startListening();
+
 
 
 
