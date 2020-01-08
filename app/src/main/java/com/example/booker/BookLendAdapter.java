@@ -47,7 +47,7 @@ public class BookLendAdapter extends RecyclerView.Adapter<BookLendAdapter.BookHo
         return bookList.size();
     }
 
-    public class BookHolder extends RecyclerView.ViewHolder  {
+    public class BookHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         private SingleBookBinding singleBookBinding;
 
         public BookHolder(@NonNull final SingleBookBinding bookBinding) {
@@ -59,10 +59,17 @@ public class BookLendAdapter extends RecyclerView.Adapter<BookLendAdapter.BookHo
                      bookClickListener.onBookClick(getAdapterPosition(),v);
                  }
              });
+             bookBinding.getRoot().setOnCreateContextMenuListener(this);
 
         }
 
 
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(this.getAdapterPosition(),310,0,"Chat With Borrower");
+
+
+        }
     }
 
     public void setOnBookClickListener(BookClickListener listener){

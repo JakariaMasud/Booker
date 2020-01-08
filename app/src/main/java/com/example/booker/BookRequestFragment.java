@@ -72,13 +72,21 @@ Map acceptMap;
         adapter=new BookRequestAdapter(requestList);
         requestBinding.bookRequestRV.setLayoutManager(layoutManager);
         requestBinding.bookRequestRV.setAdapter(adapter);
+        settingUpListener();
         prepareAllData();
+
+
+
+    }
+
+    private void settingUpListener() {
         adapter.setRequestClickListener(new RequestClickListener() {
             @Override
             public void onRequestClick(int position, View v) {
                 Log.e("request ","click triggered");
-                    final Request request=requestList.get(position);
-                    if(v.getId()==R.id.acceptBTN){
+                final Request request=requestList.get(position);
+                switch (v.getId()){
+                    case R.id.acceptBTN:
                         acceptMap=new HashMap();
                         acceptMap.put("status",true);
                         databaseReference.child(request.getRequestId()).updateChildren(acceptMap).addOnCompleteListener(new OnCompleteListener() {
@@ -90,10 +98,10 @@ Map acceptMap;
                                 }
                             }
                         });
+                        break;
 
 
-                    }
-                    else if(v.getId()==R.id.rejectBTN){
+                    case R.id.rejectBTN:
                         userRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -116,7 +124,7 @@ Map acceptMap;
                                     @Override
                                     public void onComplete(@NonNull Task task) {
                                         if(task.isSuccessful()){
-                                            databaseReference.child(request.getRequesterId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            databaseReference.child(request.getRequestId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if(task.isSuccessful()){
@@ -142,7 +150,11 @@ Map acceptMap;
                             }
                         });
 
-                    }
+                        break;
+
+
+                }
+
 
 
 
@@ -154,7 +166,6 @@ Map acceptMap;
 
             }
         });
-
 
     }
 

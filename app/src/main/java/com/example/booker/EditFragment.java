@@ -214,7 +214,7 @@ public class EditFragment extends Fragment {
 
     private void updateTheDatabse() {
         uniqueId=recievedBook.getBookId();
-        book=new Book(title,author,isbn,publisher,genre,edition,language,numberOfPage,securityMoney,user_key,coverLink,"Available",uniqueId);
+        book=new Book(title,author,isbn,publisher,genre,edition,language,numberOfPage,securityMoney,user_key,coverLink,"Available",uniqueId,"");
         Task task=databaseReference.child("Books").child(uniqueId).setValue(book);
         task.addOnCompleteListener(new OnCompleteListener() {
             @Override

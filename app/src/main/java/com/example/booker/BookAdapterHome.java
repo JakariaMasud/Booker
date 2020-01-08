@@ -3,22 +3,25 @@ package com.example.booker;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Filter;
+import android.widget.Filterable;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.booker.databinding.SingleBookBinding;
 import com.squareup.picasso.Picasso;
-
+import java.util.ArrayList;
 import java.util.List;
 
-public class BookAdapterHome extends RecyclerView.Adapter<BookAdapterHome.BookHolder> {
+public class BookAdapterHome extends RecyclerView.Adapter<BookAdapterHome.BookHolder>  implements Filterable {
     List<Book> bookList;
+    List<Book> bookListFull;
     private static BookClickListener bookClickListener;
 
     public BookAdapterHome(List<Book> bookList) {
+
         this.bookList = bookList;
+        bookListFull=new ArrayList<>(bookList);
     }
 
     @NonNull
@@ -46,6 +49,11 @@ public class BookAdapterHome extends RecyclerView.Adapter<BookAdapterHome.BookHo
         return bookList.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        return bookFilter;
+    }
+
     public class BookHolder extends RecyclerView.ViewHolder{
         private SingleBookBinding singleBookBinding;
 
@@ -65,5 +73,37 @@ public class BookAdapterHome extends RecyclerView.Adapter<BookAdapterHome.BookHo
     public void setOnBookClickListener(BookClickListener listener){
         bookClickListener =listener;
     }
+    Filter bookFilter=new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Book> filteredBook=new ArrayList<>();
+            if(constraint==null ||constraint.length()==0){
+                filteredBook.addAll(bookListFull);
+            }
+            else{
+                String filterPattern=constraint.toString().toLowerCase().trim();
+                for(Book item:bookListFull){
+                  if(item.getTitle().toLowerCase().contentEquals(filterPattern)){
+                      filteredBook.add(item);
+                  }
+                }
+            }
+
+            FilterResults results=new FilterResults();
+            results.values=filteredBook;
+
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            bookList.clear();
+            bookList.addAll((List)results.values);
+            notifyDataSetChanged();
+
+        }
+    };
+    
 
 }

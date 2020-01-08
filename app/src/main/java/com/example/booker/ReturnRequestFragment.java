@@ -40,6 +40,7 @@ public class ReturnRequestFragment extends Fragment {
     private  ReturnRequestAdapter adapter;
     SharedPreferences sharedPreferences;
     String userId;
+    boolean isDone=false;
     LinearLayoutManager layoutManager;
     DatabaseReference databaseReference,userRef,requestRef;
     Map acceptMap;
@@ -71,9 +72,101 @@ public class ReturnRequestFragment extends Fragment {
         adapter=new ReturnRequestAdapter(requestList);
         returnRequestBinding.returnRequestRV.setLayoutManager(layoutManager);
         returnRequestBinding.returnRequestRV.setAdapter(adapter);
+        SettingUpListener();
         preparingAllData();
 
 
+
+    }
+
+    private void SettingUpListener() {
+        adapter.setRequestClickListener(new RequestClickListener() {
+            @Override
+            public void onRequestClick(int position, View v) {
+                final Request request=requestList.get(position);
+                switch (v.getId()){
+                    case R.id.return_acceptBTN:
+
+                            acceptMap=new HashMap();
+                            acceptMap.put("status",true);
+                            databaseReference.child(request.getRequestId()).updateChildren(acceptMap).addOnCompleteListener(new OnCompleteListener() {
+                                @Override
+                                public void onComplete(@NonNull Task task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(getContext(), "return request has been accepted", Toast.LENGTH_SHORT).show();
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }
+                            });
+
+
+                        break;
+
+
+                    case R.id.return_rejectBTN:
+
+                        userRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                User user=dataSnapshot.getValue(User.class);
+                                String requesterHistory=user.getName()+" rejected your  return request for the book "+request.getBookTitle();
+                                String recieverHistory="You have rejected the return request of "+request.getRequesterName()+" for the book "+request.getBookTitle();
+                                String type="return request rejected";
+                                Map requesterMap=new HashMap();
+                                requesterMap.put("historyMsg",requesterHistory);
+                                requesterMap.put("historyType",type);
+                                Map recieverMap=new HashMap();
+                                recieverMap.put("historyMsg",recieverHistory);
+                                recieverMap.put("historyType",type);
+                                String recieverKey= userRef.child(userId).child("History").push().getKey();
+                                String requesterKey=userRef.child(request.getRequesterId()).child("History").push().getKey();
+                                Map finalMap=new HashMap();
+                                finalMap.put("/"+userId+"/History/"+recieverKey,recieverMap);
+                                finalMap.put("/"+request.getRequesterId()+"/History/"+requesterKey,requesterMap);
+                                userRef.updateChildren(finalMap).addOnCompleteListener(new OnCompleteListener() {
+                                    @Override
+                                    public void onComplete(@NonNull Task task) {
+                                        if(task.isSuccessful()){
+                                            requestRef.child(request.getRequestId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()){
+                                                        Toast.makeText(getContext(), "return request Has been rejected successfully", Toast.LENGTH_SHORT).show();
+                                                        adapter.notifyDataSetChanged();
+                                                    }
+
+                                                }
+                                            });
+
+                                        }
+                                    }
+                                });
+
+
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                        break;
+
+
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onRequestLongClick(int position, View v) {
+
+            }
+        });
     }
 
     private void preparingAllData() {
@@ -98,83 +191,7 @@ public class ReturnRequestFragment extends Fragment {
             }
         });
 
-        adapter.setRequestClickListener(new RequestClickListener() {
-            @Override
-            public void onRequestClick(int position, View v) {
-                final Request request=requestList.get(position);
-                if(v.getId()==R.id.acceptBTN){
-                    acceptMap=new HashMap();
-                    acceptMap.put("status",true);
-                    databaseReference.child(request.getRequestId()).updateChildren(acceptMap).addOnCompleteListener(new OnCompleteListener() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(getContext(), "return request has been accepted", Toast.LENGTH_SHORT).show();
-                                adapter.notifyDataSetChanged();
-                            }
-                        }
-                    });
 
-
-                }
-                else if(v.getId()==R.id.rejectBTN){
-                    userRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            User user=dataSnapshot.getValue(User.class);
-                            String requesterHistory=user.getName()+" rejected your  return request for the book "+request.getBookTitle();
-                            String recieverHistory="You have rejected the return request of "+request.getRequesterName()+" for the book "+request.getBookTitle();
-                            String type="return request rejected";
-                            Map requesterMap=new HashMap();
-                            requesterMap.put("historyMsg",requesterHistory);
-                            requesterMap.put("historyType",type);
-                            Map recieverMap=new HashMap();
-                            recieverMap.put("historyMsg",recieverHistory);
-                            recieverMap.put("historyType",type);
-                            String recieverKey= userRef.child(userId).child("History").push().getKey();
-                            String requesterKey=userRef.child(request.getRequesterId()).child("History").push().getKey();
-                            Map finalMap=new HashMap();
-                            finalMap.put("/"+userId+"/History/"+recieverKey,recieverMap);
-                            finalMap.put("/"+request.getRequesterId()+"/History/"+requesterKey,requesterMap);
-                            userRef.updateChildren(finalMap).addOnCompleteListener(new OnCompleteListener() {
-                                @Override
-                                public void onComplete(@NonNull Task task) {
-                                    if(task.isSuccessful()){
-                                        requestRef.child(request.getRequesterId()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if(task.isSuccessful()){
-                                                    Toast.makeText(getContext(), "return request Has been rejected successfully", Toast.LENGTH_SHORT).show();
-                                                    adapter.notifyDataSetChanged();
-                                                }
-
-                                            }
-                                        });
-
-                                    }
-                                }
-                            });
-
-
-
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-
-
-            }
-
-            @Override
-            public void onRequestLongClick(int position, View v) {
-
-            }
-        });
 
     }
 }

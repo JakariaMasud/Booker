@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
 
 
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     TextView userName,userStatus;
     CircleImageView userImg;
     User user;
+    SearchView searchView;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+
 
                 if(destination.getId() ==R.id.messageFragment){
                     mainBinding.customAppbar.setVisibility(View.GONE);
@@ -169,24 +172,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void signout(MenuItem item) {
-        if(user_key!=null){
-            Map timeMap=new HashMap();
-            timeMap.put("lastSeenTimeStamp", ServerValue.TIMESTAMP);
-            timeMap.put("isOnline",false);
-            databaseReference.child("Users").child(user_key).updateChildren(timeMap);
-        }
-        preferences.edit().clear().commit();
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
 
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.option_menu, menu);
+
         return true;
     }
 
@@ -199,7 +191,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.signout:
+                if(user_key!=null){
+                    Map timeMap=new HashMap();
+                    timeMap.put("lastSeenTimeStamp", ServerValue.TIMESTAMP);
+                    timeMap.put("isOnline",false);
+                    databaseReference.child("Users").child(user_key).updateChildren(timeMap);
+                }
+                preferences.edit().clear().commit();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+
+                default:
+                    return super.onOptionsItemSelected(item);
 
 
+        }
 
+    }
 }

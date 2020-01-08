@@ -3,12 +3,12 @@ package com.example.booker;
 import java.io.Serializable;
 
 public class Book implements Serializable {
-    private String title, author, isbn, publisher, genre, edition, language, numberOfPage, securityMoney, ownerId, CoverLink, status, bookId;
+    private String title, author, isbn, publisher, genre, edition, language, numberOfPage, securityMoney, ownerId, CoverLink, status, bookId,borrowerId;
 
     public Book() {
     }
 
-    public Book(String title, String author, String isbn, String publisher, String genre, String edition, String language, String numberOfPage, String securityMoney, String ownerId, String coverLink, String status, String bookId) {
+    public Book(String title, String author, String isbn, String publisher, String genre, String edition, String language, String numberOfPage, String securityMoney, String ownerId, String coverLink, String status, String bookId, String borrower) {
         this.title = title;
         this.author = author;
         this.isbn = isbn;
@@ -22,6 +22,15 @@ public class Book implements Serializable {
         CoverLink = coverLink;
         this.status = status;
         this.bookId = bookId;
+        this.borrowerId = borrower;
+    }
+
+    public String getBorrowerId() {
+        return borrowerId;
+    }
+
+    public void setBorrowerId(String borrowerId) {
+        this.borrowerId = borrowerId;
     }
 
     public String getTitle() {
@@ -127,4 +136,5 @@ public class Book implements Serializable {
     public void setBookId(String bookId) {
         this.bookId = bookId;
     }
+
 }

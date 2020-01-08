@@ -4,7 +4,6 @@ package com.example.booker;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -13,11 +12,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.booker.databinding.FragmentBookLendBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -72,6 +70,22 @@ public class BookLendFragment extends Fragment {
         }
         databaseReference= FirebaseDatabase.getInstance().getReference("Users");
         PreparingAllData();
+        settingUpListener();
+    }
+
+    private void settingUpListener() {
+        adapter.setOnBookClickListener(new BookClickListener() {
+            @Override
+            public void onBookClick(int position, View v) {
+
+            }
+
+            @Override
+            public void onBookLongClick(int position, View v) {
+
+            }
+        });
+
     }
 
     private void PreparingAllData() {
@@ -93,5 +107,20 @@ public class BookLendFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int position=item.getGroupId();
+        switch (item.getItemId()){
+            case 310:
+              String borrowerId=  lendBookList.get(position).getBorrowerId();
+              DeskFragmentDirections.ActionDeskFragmentToMessageFragment
+                      action=DeskFragmentDirections.actionDeskFragmentToMessageFragment(borrowerId);
+              navController.navigate(action);
+
+
+        }
+        return super.onContextItemSelected(item);
     }
 }
