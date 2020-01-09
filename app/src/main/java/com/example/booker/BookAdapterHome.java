@@ -1,5 +1,6 @@
 package com.example.booker;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookAdapterHome extends RecyclerView.Adapter<BookAdapterHome.BookHolder>  implements Filterable {
-    List<Book> bookList;
-    List<Book> bookListFull;
+    private List<Book>originalData = null;
+    private List<Book>filteredData = null;
+    private Filter mFilter = new BookFilter();
     private static BookClickListener bookClickListener;
 
-    public BookAdapterHome(List<Book> bookList) {
+    public BookAdapterHome(List<Book> booklist) {
 
-        this.bookList = bookList;
-        bookListFull=new ArrayList<>(bookList);
+        this.filteredData = booklist ;
+        this.originalData = booklist ;
+
     }
 
     @NonNull
@@ -35,7 +38,7 @@ public class BookAdapterHome extends RecyclerView.Adapter<BookAdapterHome.BookHo
 
     @Override
     public void onBindViewHolder(@NonNull BookHolder holder, final int position) {
-        final Book book=bookList.get(position);
+        final Book book=filteredData.get(position);
         Picasso.get().load(book.getCoverLink()).placeholder(R.drawable.book_place_holder).into(holder.singleBookBinding.bookIV);
         holder.singleBookBinding.bookTitleTV.setText(book.getTitle());
         holder.singleBookBinding.bookEditionTV.setText("Edition: "+book.getEdition());
@@ -46,12 +49,12 @@ public class BookAdapterHome extends RecyclerView.Adapter<BookAdapterHome.BookHo
 
     @Override
     public int getItemCount() {
-        return bookList.size();
+        return filteredData.size();
     }
 
     @Override
     public Filter getFilter() {
-        return bookFilter;
+        return mFilter;
     }
 
     public class BookHolder extends RecyclerView.ViewHolder{
@@ -73,37 +76,45 @@ public class BookAdapterHome extends RecyclerView.Adapter<BookAdapterHome.BookHo
     public void setOnBookClickListener(BookClickListener listener){
         bookClickListener =listener;
     }
-    Filter bookFilter=new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            List<Book> filteredBook=new ArrayList<>();
-            if(constraint==null ||constraint.length()==0){
-                filteredBook.addAll(bookListFull);
+private class BookFilter extends Filter{
+    @Override
+    protected FilterResults performFiltering(CharSequence constraint) {
+
+        String filterString = constraint.toString().toLowerCase();
+
+        FilterResults results = new FilterResults();
+
+        final List<Book> list = originalData;
+
+        int count = list.size();
+        final ArrayList<Book> nlist = new ArrayList<Book>(count);
+
+        Book filterableObj ;
+
+        for (int i = 0; i < count; i++) {
+            filterableObj = list.get(i);
+            if (filterableObj.getTitle().toLowerCase().contains(filterString)
+                    || filterableObj.getAuthor().toLowerCase().contains(filterString)
+            || filterableObj.getOwnerId().toLowerCase().contains(filterString)) {
+                nlist.add(filterableObj);
             }
-            else{
-                String filterPattern=constraint.toString().toLowerCase().trim();
-                for(Book item:bookListFull){
-                  if(item.getTitle().toLowerCase().contentEquals(filterPattern)){
-                      filteredBook.add(item);
-                  }
-                }
-            }
-
-            FilterResults results=new FilterResults();
-            results.values=filteredBook;
-
-
-            return results;
         }
 
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            bookList.clear();
-            bookList.addAll((List)results.values);
-            notifyDataSetChanged();
+        results.values = nlist;
+        results.count = nlist.size();
 
-        }
-    };
-    
+        return results;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void publishResults(CharSequence constraint, FilterResults results) {
+        filteredData = (ArrayList<Book>) results.values;
+        notifyDataSetChanged();
+    }
 
 }
+}
+    
+
+

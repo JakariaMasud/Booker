@@ -16,10 +16,12 @@
     </style>
 <style name="ActionBarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
     <item name="colorControlNormal">#FFFFFF</item>
+    <item name="android:textColorPrimary">@color/actionBarText</item>
+    <item name="android:textColorHint">@color/actionBarText</item>
 </style>
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">#fff</item>
+        <item name="android:textColor">#000</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">false</item>
         <item name="textAllCaps">false</item>
