@@ -1,12 +1,9 @@
 package com.example.booker;
-
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -14,11 +11,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +89,10 @@ public class HomeFragment extends Fragment implements SearchView.OnQueryTextList
                 bookList.clear();
                 for (DataSnapshot singleBook : dataSnapshot.getChildren()) {
                     Book book = singleBook.getValue(Book.class);
-                    bookList.add(book);
+                    if(book.getStatus().equals("Available")){
+                        bookList.add(book);
+                    }
+
                 }
                 adapter.notifyDataSetChanged();
 

@@ -16,7 +16,6 @@
     </style>
 <style name="ActionBarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
     <item name="colorControlNormal">#FFFFFF</item>
-    <item name="android:textColorPrimary">@color/actionBarText</item>
     <item name="android:textColorHint">@color/actionBarText</item>
 </style>
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
