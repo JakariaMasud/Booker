@@ -70,9 +70,9 @@ public class AddBookFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         addBookBinding= DataBindingUtil.inflate(inflater,R.layout.fragment_add_book, container, false);
+        addBookBinding= DataBindingUtil.inflate(inflater,R.layout.fragment_add_book, container, false);
 
-         return addBookBinding.getRoot();
+        return addBookBinding.getRoot();
     }
 
     @Override
@@ -85,13 +85,14 @@ public class AddBookFragment extends Fragment {
         addBookBinding.chooserBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            createChooserForImg();
+                createChooserForImg();
             }
         });
 
         addBookBinding.addBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("problem","add button triggered");
                 checkingAllInformation();
             }
         });
@@ -151,10 +152,12 @@ public class AddBookFragment extends Fragment {
             addBookBinding.chooserBTN.setError("please select an image from Gallery");
             return;
         }
+        Log.e("problem","in checking mode");
         Boolean hasData= preferences.contains("user_key");
         if(hasData){
             user_key = preferences.getString("user_key", "");
-           UploadImage();
+            Log.e("problem","image is in uploading state");
+            UploadImage();
 
         }
 
@@ -163,15 +166,16 @@ public class AddBookFragment extends Fragment {
     }
 
     private void UploadImage() {
-         fileRef=mStorageRef.child(fileName);
+        fileRef=mStorageRef.child(fileName);
         UploadTask uploadTask= fileRef.putFile(selectedImageURI);
         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         coverLink= uri.toString();
+                        Log.e("problem","save to database state");
                         updateTheDatabse();
                     }
                 });
@@ -188,7 +192,7 @@ public class AddBookFragment extends Fragment {
     }
 
     private void updateTheDatabse(){
-         uniqueId=databaseReference.child("Books").push().getKey();
+        uniqueId=databaseReference.child("Books").push().getKey();
         book=new Book(title,author,isbn,publisher,genre,edition,language,numberOfPage,securityMoney,user_key,coverLink,"Available",uniqueId,"");
         Task task=databaseReference.child("Books").child(uniqueId).setValue(book);
         task.addOnCompleteListener(new OnCompleteListener() {
