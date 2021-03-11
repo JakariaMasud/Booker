@@ -57,7 +57,7 @@ public class MessageFragment extends Fragment {
     Message message;
     private LinearLayoutManager layoutManager;
     String profiePic,userName;
-    boolean isRetrived,isChecked;
+    boolean isRetrived,isExist;
 
 
 
@@ -89,7 +89,7 @@ public class MessageFragment extends Fragment {
         userReference= FirebaseDatabase.getInstance().getReference().child("Users");
         messageReference= FirebaseDatabase.getInstance().getReference("Users").child(senderId).child("Chats/").child(recieverId+"/Messages");
         profileRef=FirebaseDatabase.getInstance().getReference("Users");
-        retrieveAndCheck();
+        loadData();
 
         messageBinding.messageRV.setLayoutManager(layoutManager);
 
@@ -102,33 +102,38 @@ public class MessageFragment extends Fragment {
                     return;
                 }
                 else {
-                    String msgKey=databaseReference.child(senderId).child("Chats").child(recieverId).child("Messages").push().getKey();
-                    Map messageMap=new HashMap<>();
-                    messageMap.put("message",message);
-                    messageMap.put("timeStamp",ServerValue.TIMESTAMP);
-                    messageMap.put("senderId",senderId);
-                    messageMap.put("type","Text");
-                    String senderRef=senderId+"/Chats/"+recieverId+"/Messages/"+msgKey;
-                    String senderRefLast=senderId+"/Chats/"+recieverId+"/Last_Msg";
+                    if(!isExist){
+                        createChater();
+                        String msgKey=databaseReference.child(senderId).child("Chats").child(recieverId).child("Messages").push().getKey();
+                        Map messageMap=new HashMap<>();
+                        messageMap.put("message",message);
+                        messageMap.put("timeStamp",ServerValue.TIMESTAMP);
+                        messageMap.put("senderId",senderId);
+                        messageMap.put("type","Text");
+                        String senderRef=senderId+"/Chats/"+recieverId+"/Messages/"+msgKey;
+                        String senderRefLast=senderId+"/Chats/"+recieverId+"/Last_Msg";
 
-                    String recieverRef=recieverId+"/Chats/"+senderId+"/Messages/"+msgKey;
-                    String recieverRefLast=recieverId+"/Chats/"+senderId+"/Last_Msg";
+                        String recieverRef=recieverId+"/Chats/"+senderId+"/Messages/"+msgKey;
+                        String recieverRefLast=recieverId+"/Chats/"+senderId+"/Last_Msg";
 
-                    Map userMap=new HashMap();
-                    userMap.put(senderRef,messageMap);
-                    userMap.put(recieverRef,messageMap);
-                    userMap.put(senderRefLast,messageMap);
-                    userMap.put(recieverRefLast,messageMap);
-                    databaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                            if(task.isSuccessful()){
-                                messageBinding.messageET.setText("");
+                        Map userMap=new HashMap();
+                        userMap.put(senderRef,messageMap);
+                        userMap.put(recieverRef,messageMap);
+                        userMap.put(senderRefLast,messageMap);
+                        userMap.put(recieverRefLast,messageMap);
+                        databaseReference.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+                            @Override
+                            public void onComplete(@NonNull Task task) {
+                                if(task.isSuccessful()){
+                                    messageBinding.messageET.setText("");
+
+                                }
 
                             }
+                        });
+                    }
 
-                        }
-                    });
+
 
                 }
 
@@ -137,47 +142,76 @@ public class MessageFragment extends Fragment {
 
 
     }
-
-    private void retrieveAndCheck() {
+    private void loadData(){
         userReference.child(recieverId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 User user=dataSnapshot.getValue(User.class);
-
                 userName=user.getName();
                 profiePic=user.getProfilePicLink();
                 isRetrived=true;
-                if(!isChecked){
-                    Map infoMap=new HashMap();
-                    infoMap.put("name",userName);
-                    infoMap.put("profilePicLink",profiePic);
-                    profileRef.child(senderId).child("Chats").child(recieverId).updateChildren(infoMap).addOnCompleteListener(new OnCompleteListener() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                            if(task.isSuccessful()){
-                                isChecked=true;
-                                messageBinding.messageRV.setAdapter(adapter);
-                                adapter.startListening();
-                            }
-
+                profileRef.child(senderId).child("Chats").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        isExist=dataSnapshot.hasChild(recieverId);
+                        if(isExist){
+                            messageBinding.messageRV.setAdapter(adapter);
+                            adapter.startListening();
                         }
-                    });
+                    }
 
-                }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-
-
-
-
+                    }
+                });
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
+
     }
+
+
+    private void createChater(){
+        userReference.child(recieverId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user=dataSnapshot.getValue(User.class);
+                userName=user.getName();
+                profiePic=user.getProfilePicLink();
+                Map infoMap=new HashMap();
+                infoMap.put("name",userName);
+                infoMap.put("profilePicLink",profiePic);
+                isRetrived=true;
+                profileRef.child(senderId).child("Chats").child(recieverId).updateChildren(infoMap).addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if(task.isSuccessful()){
+                            isExist=true;
+                            messageBinding.messageRV.setAdapter(adapter);
+                            adapter.startListening();
+
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
+
+
 
 
     @Override
