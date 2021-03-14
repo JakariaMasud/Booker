@@ -37,16 +37,14 @@ An Android Application which sets a platform for the book owner or the book borr
 #### Screenshots :
 
 
-<img src="images/1.jpeg" height="320" width="300"> <img src="images/2.jpeg" height="320" width="300"> <img src="images/3.jpeg" height="320" width="300"> 
-
-<img src="images/4.jpeg" height="320" width="300"> <img src="images/5.png" height="320" width="300">  <img src="images/6.jpeg" height="320" width="300">
-
-<img src="images/7.jpeg" height="320" width="300"> <img src="images/8.png" height="320" width="300"> <img src="images/9.jpg" height="320" width="300">
-
-<img src="images/10.png" height="320" width="300"> <img src="images/11.jpg" height="320" width="300"> <img src="images/13.jpeg" height="320" width="300">
-
-<img src="images/14.png" height="320" width="300"> <img src="images/15.jpeg" height="320" width="300"> <img src="images/16.jpeg" height="320" width="300"> 
-
-<img src="images/17.jpeg" height="320" width="300">  <img src="images/18.jpg" height="320" width="300">
+<img src="images/1.jpeg" height="400" width="350"> <img src="images/2.jpeg" height="400" width="350">
+<img src="images/3.jpeg" height="400" width="350"> <img src="images/4.jpeg" height="400" width="350">
+<img src="images/5.png" height="400" width="350">  <img src="images/6.jpeg" height="400" width="350">
+<img src="images/7.jpeg" height="400" width="350"> <img src="images/8.png" height="400" width="350">
+<img src="images/9.jpg" height="400" width="350"> <img src="images/10.png" height="400" width="350">
+<img src="images/11.jpg" height="400" width="350"> <img src="images/13.jpeg" height="400" width="350">
+<img src="images/14.png" height="400" width="350"> <img src="images/15.jpeg" height="400" width="350"> 
+<img src="images/16.jpeg" height="400" width="350"> <img src="images/17.jpeg" height="400" width="350"> 
+<img src="images/18.jpg" height="400" width="350">
 
  
